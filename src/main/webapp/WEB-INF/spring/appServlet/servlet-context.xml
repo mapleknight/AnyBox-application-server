@@ -58,6 +58,8 @@
 			<beans:list>
 				<beans:value>com.anybox.model.Customer</beans:value>
 				<beans:value>com.anybox.model.User</beans:value>
+				<beans:value>com.anybox.model.Product</beans:value>
+				<beans:value>com.anybox.model.Category</beans:value>
 			</beans:list>
 		</beans:property>
 		<beans:property name="hibernateProperties">
@@ -82,6 +84,18 @@
 		<beans:property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />
 	</beans:bean>
 	<beans:bean id="userService" class="com.anybox.service.UserServiceImpl">
+	</beans:bean>
+	
+	<beans:bean id="productDAO" class="com.anybox.dao.ProductDAOImpl">
+		<beans:property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />
+	</beans:bean>
+	<beans:bean id="productService" class="com.anybox.service.ProductServiceImpl">
+	</beans:bean>
+	
+	<beans:bean id="categoryDAO" class="com.anybox.dao.CategoryDAOImpl">
+		<beans:property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />
+	</beans:bean>
+	<beans:bean id="categoryService" class="com.anybox.service.CategoryServiceImpl">
 	</beans:bean>
 	
 	<context:component-scan base-package="com.anybox" />
