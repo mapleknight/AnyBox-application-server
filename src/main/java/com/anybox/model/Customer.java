@@ -1,5 +1,7 @@
 package com.anybox.model;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -7,9 +9,17 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 @Table(name="CUSTOMER")
-public class Customer {
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+public class Customer implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8928335732165637704L;
 
 	@Id
 	@Column(name="id")

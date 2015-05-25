@@ -26,6 +26,11 @@ public class RCustomerController {
 		this.customerService = cs;
 	}
 	
+	@RequestMapping(value = "/rcustomer/{id}", method = RequestMethod.GET)
+	public @ResponseBody Customer getCustomers(@PathVariable("id") int id) {
+		return this.customerService.getCustomerById(id);
+	}
+	
 	@RequestMapping(value = "/rcustomers", method = RequestMethod.GET)
 	public @ResponseBody List<Customer> listCustomers(Model model) {
 		return this.customerService.listCustomers();
@@ -52,5 +57,5 @@ public class RCustomerController {
         this.customerService.removeCustomer(id);
         //return "redirect:/customers";
         return "Successfully Removed customer with id " + id;
-    }	
+    }
 }

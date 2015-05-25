@@ -25,7 +25,10 @@
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
 	
-	 <!-- Configure to plugin JSON as request and response in method handler -->
+	<beans:bean  
+	    class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping">
+	</beans:bean>
+	<!-- Configure to plugin JSON as request and response in method handler -->
     <beans:bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
         <beans:property name="messageConverters">
             <beans:list>
@@ -40,11 +43,11 @@
     
 	<beans:bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
 		destroy-method="close">
-		<beans:property name="driverClassName" value="org.postgresql.Driver" />
+		<beans:property name="driverClassName" value="com.mysql.jdbc.Driver" />
 		<beans:property name="url"
-			value="jdbc:postgresql://ec2-23-21-219-209.compute-1.amazonaws.com:5432/df9osju4luoqu9?ssl=true&amp;sslfactory=org.postgresql.ssl.NonValidatingFactory" />
-		<beans:property name="username" value="hnagpruxczdenn" />
-		<beans:property name="password" value="Ba4stypojX0j3iY4zVd2jiJwXF" />
+			value="jdbc:mysql://localhost:3306/anybox" />
+		<beans:property name="username" value="anybox" />
+		<beans:property name="password" value="anybox" />
 	</beans:bean>
 
 	<!-- Hibernate 4 SessionFactory Bean definition -->
@@ -54,6 +57,7 @@
 		<beans:property name="annotatedClasses">
 			<beans:list>
 				<beans:value>com.anybox.model.Customer</beans:value>
+				<beans:value>com.anybox.model.User</beans:value>
 			</beans:list>
 		</beans:property>
 		<beans:property name="hibernateProperties">
@@ -65,12 +69,21 @@
 		</beans:property>
 	</beans:bean>
 	
+	<beans:bean class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor"/>
+	
 	<beans:bean id="customerDAO" class="com.anybox.dao.CustomerDAOImpl">
 		<beans:property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />
 	</beans:bean>
 	<beans:bean id="customerService" class="com.anybox.service.CustomerServiceImpl">
 		<beans:property name="customerDAO" ref="customerDAO"></beans:property>
 	</beans:bean>
+	
+	<beans:bean id="userDAO" class="com.anybox.dao.UserDAOImpl">
+		<beans:property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />
+	</beans:bean>
+	<beans:bean id="userService" class="com.anybox.service.UserServiceImpl">
+	</beans:bean>
+	
 	<context:component-scan base-package="com.anybox" />
 	
 	<tx:annotation-driven transaction-manager="transactionManager"/>
