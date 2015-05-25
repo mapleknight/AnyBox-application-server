@@ -52,6 +52,7 @@ public class UserDAOImpl implements UserDAO {
 		Criteria cri = session.createCriteria(User.class);
 		cri.add(Restrictions.eq("email", email));
 		List<User> list = cri.list();
+		logger.info("Get user info by email successfully, User Details=" + list.get(0));
 		return list.get(0);
 	}
 
@@ -59,7 +60,7 @@ public class UserDAOImpl implements UserDAO {
 	public User getUserById(int id) {
 		Session session = this.sessionFactory.getCurrentSession();
 		User u = (User) session.load(User.class, id);
-		
+		logger.info("Get user info by id successfully, User Details=" + u);
 		return u;
 	}
 
@@ -68,6 +69,8 @@ public class UserDAOImpl implements UserDAO {
 		Session session = this.sessionFactory.getCurrentSession();
 		session.update(u);
 		User _u = this.getUserById(u.getId());
+		
+		logger.info("Update user info successfully, User Details=" + u);
 		
 		return _u;
 	}
