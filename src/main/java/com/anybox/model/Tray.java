@@ -29,6 +29,9 @@ public class Tray implements Serializable {
 	@Column(name="machine_id")
 	private int machineId;
 	
+	@Column(name="product_id")
+	private int productId;
+	
 	private String position;
 	
 	private String name;
@@ -51,6 +54,14 @@ public class Tray implements Serializable {
 
 	public void setMachineId(int machineId) {
 		this.machineId = machineId;
+	}
+
+	public int getProductId() {
+		return productId;
+	}
+
+	public void setProductId(int productId) {
+		this.productId = productId;
 	}
 
 	public String getPosition() {
