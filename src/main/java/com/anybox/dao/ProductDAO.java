@@ -6,10 +6,10 @@ import com.anybox.model.Product;
 
 public interface ProductDAO {
 	
-	public void addProduct(Product p);
-	public void updateProduct(Product p);
-	public List<Product> listProduct();
-	public Product getProductById(int id);
-	public void deleteProduct(int id);
+	public Product add(Product p);
+	public Product update(Product p);
+	public List<Product> list();
+	public Product getById(int id);
+	public void delete(int id);
 
 }

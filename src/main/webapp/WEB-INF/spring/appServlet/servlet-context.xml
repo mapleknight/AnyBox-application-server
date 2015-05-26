@@ -60,6 +60,9 @@
 				<beans:value>com.anybox.model.User</beans:value>
 				<beans:value>com.anybox.model.Product</beans:value>
 				<beans:value>com.anybox.model.Category</beans:value>
+				<beans:value>com.anybox.model.Machine</beans:value>
+				<beans:value>com.anybox.model.Tray</beans:value>
+				<beans:value>com.anybox.model.Inventory</beans:value>
 			</beans:list>
 		</beans:property>
 		<beans:property name="hibernateProperties">
@@ -97,6 +100,27 @@
 	</beans:bean>
 	<beans:bean id="categoryService" class="com.anybox.service.CategoryServiceImpl">
 	</beans:bean>
+	
+	<beans:bean id="trayDAO" class="com.anybox.dao.TrayDAOImpl">
+		<beans:property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />
+	</beans:bean>
+	<beans:bean id="trayService" class="com.anybox.service.TrayServiceImpl">
+	</beans:bean>
+	
+	<beans:bean id="machineDAO" class="com.anybox.dao.MachineDAOImpl">
+		<beans:property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />
+	</beans:bean>
+	<beans:bean id="machineService" class="com.anybox.service.MachineServiceImpl">
+	</beans:bean>
+	
+	
+	
+	<beans:bean id="multipartResolver"
+        class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+         <!-- setting maximum upload size -->
+        <beans:property name="maxUploadSize" value="20000000" />
+    </beans:bean>
+	
 	
 	<context:component-scan base-package="com.anybox" />
 	

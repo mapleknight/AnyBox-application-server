@@ -19,38 +19,35 @@ public class CategoryServiceImpl implements CategoryService {
 
 	@Override
 	@Transactional
-	public void addCategory(Category c) {
-		
-		this.categoryDAO.addCategory(c);
+	public Category add(Category c) {
+		return this.categoryDAO.add(c);
+	}
+
+	@Override
+	@Transactional
+	public Category update(Category c) {
+		return this.categoryDAO.update(c);
 
 	}
 
 	@Override
 	@Transactional
-	public void updateCategory(Category c) {
+	public List<Category> list() {
 		
-		this.categoryDAO.updateCategory(c);
-
+		return this.categoryDAO.list();
 	}
 
 	@Override
 	@Transactional
-	public List<Category> listCategory() {
+	public Category getById(int id) {
 		
-		return this.categoryDAO.listCategory();
+		return this.categoryDAO.getById(id);
 	}
 
 	@Override
 	@Transactional
-	public Category getCategoryById(int id) {
-		
-		return this.categoryDAO.getCategoryById(id);
-	}
-
-	@Override
-	@Transactional
-	public void deleteCategory(int id) {
-		this.categoryDAO.deleteCategory(id);
+	public void delete(int id) {
+		this.categoryDAO.delete(id);
 	}
 
 }

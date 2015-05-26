@@ -2,8 +2,10 @@ package com.anybox.dao;
 
 import java.util.List;
 
+import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
@@ -23,22 +25,28 @@ public class CategoryDAOImpl implements CategoryDAO {
 	}
 
 	@Override
-	public void addCategory(Category c) {
+	public Category add(Category c) {
 		Session session = this.sessionFactory.getCurrentSession();
 		session.persist(c);
 		logger.info("Add category successfully, category Details=" + c);
+		return this.getByName(c.getName());
 	}
 
 	@Override
-	public void updateCategory(Category c) {
+	public Category update(Category c) {
 		Session session = this.sessionFactory.getCurrentSession();
 		session.update(c);
 		logger.info("Update category successfully, category Details=" + c);
+		if(c.getId() > 0)
+		{
+			return this.getById(c.getId());
+		}
+		return this.getByName(c.getName());
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Category> listCategory() {
+	public List<Category> list() {
 		Session session = this.sessionFactory.getCurrentSession();
 		List<Category> categoryList = session.createQuery("from Product").list();
 		for(Category c : categoryList){
@@ -48,7 +56,7 @@ public class CategoryDAOImpl implements CategoryDAO {
 	}
 
 	@Override
-	public Category getCategoryById(int id) {
+	public Category getById(int id) {
 		Session session = this.sessionFactory.getCurrentSession();		
 		Category c = (Category) session.load(Category.class, new Integer(id));
 		logger.info("Category loaded successfully, category details=" + c);
@@ -56,7 +64,7 @@ public class CategoryDAOImpl implements CategoryDAO {
 	}
 
 	@Override
-	public void deleteCategory(int id) {
+	public void delete(int id) {
 		Session session = this.sessionFactory.getCurrentSession();
 		Category c = (Category) session.load(Category.class, new Integer(id));
 		if(null != c){
@@ -64,6 +72,16 @@ public class CategoryDAOImpl implements CategoryDAO {
 		}
 		logger.info("Category deleted successfully, category details=" + c);
 
+	}
+	
+	@SuppressWarnings("unchecked")
+	private Category getByName(String name) {
+		Session session = this.sessionFactory.getCurrentSession();
+		Criteria cri = session.createCriteria(Category.class);
+		cri.add(Restrictions.eq("name", name));
+		List<Category> list = cri.list();
+		logger.info("Get category info by name successfully, category Details=" + list.get(0));
+		return list.get(0);
 	}
 
 }

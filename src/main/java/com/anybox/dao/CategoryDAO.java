@@ -6,10 +6,10 @@ import com.anybox.model.Category;
 
 public interface CategoryDAO {
 	
-	public void addCategory(Category c);
-	public void updateCategory(Category c);
-	public List<Category> listCategory();
-	public Category getCategoryById(int id);
-	public void deleteCategory(int id);
+	public Category add(Category c);
+	public Category update(Category c);
+	public List<Category> list();
+	public Category getById(int id);
+	public void delete(int id);
 
 }

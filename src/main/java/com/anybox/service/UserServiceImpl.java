@@ -39,7 +39,7 @@ public class UserServiceImpl implements UserService {
 		}
 		
 		User user = new User();
-		user.setId(Const.errTag);
+		user.setId(Const.ERR_TAG);
 		return user;
 	}
 
