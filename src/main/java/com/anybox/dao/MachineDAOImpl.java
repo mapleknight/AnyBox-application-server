@@ -2,10 +2,8 @@ package com.anybox.dao;
 
 import java.util.List;
 
-import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
@@ -27,9 +25,9 @@ public class MachineDAOImpl implements MachineDAO {
 	@Override
 	public Machine add(Machine t) {
 		Session session = this.sessionFactory.getCurrentSession();
-		session.persist(t);
+		session.save(t);
 		logger.info("Add machine successfully, machine Details=" + t);
-		return this.getByName(t.getName());
+		return t;
 	}
 
 	@Override
@@ -38,12 +36,7 @@ public class MachineDAOImpl implements MachineDAO {
 		session.update(t);
 		logger.info("Update machine successfully, machine Details=" + t);
 		
-		if(t.getId() > 0)
-		{
-			return this.getById(t.getId());
-		}
-		return this.getByName(t.getName());
-		
+		return t;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -73,16 +66,6 @@ public class MachineDAOImpl implements MachineDAO {
 			session.delete(m);
 		}
 		logger.info("Machine deleted successfully, machine details=" + m);
-	}
-	
-	@SuppressWarnings("unchecked")
-	private Machine getByName(String name) {
-		Session session = this.sessionFactory.getCurrentSession();
-		Criteria cri = session.createCriteria(Machine.class);
-		cri.add(Restrictions.eq("name", name));
-		List<Machine> list = cri.list();
-		logger.info("Get Machine info by name successfully, Machine Details=" + list.get(0));
-		return list.get(0);
 	}
 
 }

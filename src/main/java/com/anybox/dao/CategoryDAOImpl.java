@@ -27,9 +27,9 @@ public class CategoryDAOImpl implements CategoryDAO {
 	@Override
 	public Category add(Category c) {
 		Session session = this.sessionFactory.getCurrentSession();
-		session.persist(c);
+		session.save(c);
 		logger.info("Add category successfully, category Details=" + c);
-		return this.getByName(c.getName());
+		return c;
 	}
 
 	@Override
@@ -37,11 +37,7 @@ public class CategoryDAOImpl implements CategoryDAO {
 		Session session = this.sessionFactory.getCurrentSession();
 		session.update(c);
 		logger.info("Update category successfully, category Details=" + c);
-		if(c.getId() > 0)
-		{
-			return this.getById(c.getId());
-		}
-		return this.getByName(c.getName());
+		return this.getById(c.getId());
 	}
 
 	@SuppressWarnings("unchecked")
@@ -72,16 +68,6 @@ public class CategoryDAOImpl implements CategoryDAO {
 		}
 		logger.info("Category deleted successfully, category details=" + c);
 
-	}
-	
-	@SuppressWarnings("unchecked")
-	private Category getByName(String name) {
-		Session session = this.sessionFactory.getCurrentSession();
-		Criteria cri = session.createCriteria(Category.class);
-		cri.add(Restrictions.eq("name", name));
-		List<Category> list = cri.list();
-		logger.info("Get category info by name successfully, category Details=" + list.get(0));
-		return list.get(0);
 	}
 
 }

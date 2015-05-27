@@ -2,10 +2,8 @@ package com.anybox.dao;
 
 import java.util.List;
 
-import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
@@ -26,9 +24,9 @@ public class TrayDAOImpl implements TrayDAO {
 	@Override
 	public Tray add(Tray t) {
 		Session session = this.sessionFactory.getCurrentSession();
-		session.persist(t);
+		session.save(t);
 		logger.info("Add tray successfully, tray Details=" + t);
-		return this.getByName(t.getName());
+		return t;
 	}
 
 	@Override
@@ -36,11 +34,7 @@ public class TrayDAOImpl implements TrayDAO {
 		Session session = this.sessionFactory.getCurrentSession();
 		session.update(t);
 		logger.info("Update tray successfully, tray Details=" + t);
-		if(t.getId() > 0)
-		{
-			return this.getById(t.getId());
-		}
-		return this.getByName(t.getName());
+		return t;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -72,14 +66,4 @@ public class TrayDAOImpl implements TrayDAO {
 		logger.info("Tray deleted successfully, tray details=" + t);
 	}
 	
-	@SuppressWarnings("unchecked")
-	private Tray getByName(String name) {
-		Session session = this.sessionFactory.getCurrentSession();
-		Criteria cri = session.createCriteria(Tray.class);
-		cri.add(Restrictions.eq("name", name));
-		List<Tray> list = cri.list();
-		logger.info("Get Tray info by name successfully, Tray Details=" + list.get(0));
-		return list.get(0);
-	}
-
 }
