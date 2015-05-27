@@ -63,6 +63,9 @@
 				<beans:value>com.anybox.model.Machine</beans:value>
 				<beans:value>com.anybox.model.Tray</beans:value>
 				<beans:value>com.anybox.model.Inventory</beans:value>
+				<beans:value>com.anybox.model.Order</beans:value>
+				<beans:value>com.anybox.model.OrderDetail</beans:value>
+				<beans:value>com.anybox.model.PreorderRecord</beans:value>
 			</beans:list>
 		</beans:property>
 		<beans:property name="hibernateProperties">
@@ -111,6 +114,14 @@
 		<beans:property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />
 	</beans:bean>
 	<beans:bean id="machineService" class="com.anybox.service.MachineServiceImpl">
+	</beans:bean>
+	
+	<beans:bean id="inventoryDAO" class="com.anybox.dao.InventoryDAOImpl">
+		<beans:property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />
+	</beans:bean>
+	
+	<beans:bean id="orderDAO" class="com.anybox.dao.OrderDAOImpl">
+		<beans:property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />
 	</beans:bean>
 	
 	
