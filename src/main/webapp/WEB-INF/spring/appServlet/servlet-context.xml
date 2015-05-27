@@ -124,6 +124,14 @@
 		<beans:property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />
 	</beans:bean>
 	
+	<beans:bean id="orderDetailDAO" class="com.anybox.dao.OrderDetailDAOImpl">
+		<beans:property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />
+	</beans:bean>
+	
+	<beans:bean id="preorderRecordDAO" class="com.anybox.dao.PreorderRecordDAOImpl">
+		<beans:property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />
+	</beans:bean>
+	
 	
 	
 	<beans:bean id="multipartResolver"
