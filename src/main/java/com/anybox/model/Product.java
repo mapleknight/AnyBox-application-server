@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.anybox.utils.AnyboxUtils;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
@@ -129,5 +130,9 @@ public class Product implements Serializable {
 		this.img5 = img5;
 	}
 	
+	@Override
+	public String toString() {
+		return AnyboxUtils.toString(this);
+	}
 
 }

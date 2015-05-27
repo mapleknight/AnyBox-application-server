@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.anybox.utils.AnyboxUtils;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
@@ -94,6 +95,11 @@ public class Tray implements Serializable {
 
 	public void setCapacity(int capacity) {
 		this.capacity = capacity;
+	}
+	
+	@Override
+	public String toString() {
+		return AnyboxUtils.toString(this);
 	}
 
 }

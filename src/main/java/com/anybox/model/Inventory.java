@@ -10,12 +10,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.anybox.utils.AnyboxUtils;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.DateSerializer;
 
 @Entity
-@Table(name="CATEGORY")
+@Table(name="INVENTORY")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Inventory implements Serializable {
 
@@ -54,6 +55,7 @@ public class Inventory implements Serializable {
 		this.id = id;
 	}
 
+	@Column(updatable=false)
 	@JsonSerialize(using=DateSerializer.class)
 	public Date getDate() {
 		return date;
@@ -63,6 +65,7 @@ public class Inventory implements Serializable {
 		this.date = date;
 	}
 
+	@Column(updatable=false)
 	public int getMachineId() {
 		return machineId;
 	}
@@ -71,6 +74,7 @@ public class Inventory implements Serializable {
 		this.machineId = machineId;
 	}
 
+	@Column(updatable=false)
 	public int getTrayId() {
 		return trayId;
 	}
@@ -79,6 +83,7 @@ public class Inventory implements Serializable {
 		this.trayId = trayId;
 	}
 
+	@Column(updatable=false)
 	public int getProductId() {
 		return productId;
 	}
@@ -101,6 +106,11 @@ public class Inventory implements Serializable {
 
 	public void setFreeCapacity(int freeCapacity) {
 		this.freeCapacity = freeCapacity;
+	}
+	
+	@Override
+	public String toString() {
+		return AnyboxUtils.toString(this);
 	}
 	
 }

@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import javax.persistence.Entity;
 
+import com.anybox.utils.AnyboxUtils;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
@@ -33,6 +34,11 @@ public class ResponseModel implements Serializable {
 
 	public void setMsg(String msg) {
 		this.msg = msg;
+	}
+	
+	@Override
+	public String toString() {
+		return AnyboxUtils.toString(this);
 	}
 
 }

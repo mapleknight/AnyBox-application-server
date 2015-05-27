@@ -16,35 +16,31 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.DateSerializer;
 
 @Entity
-@Table(name="PREORDER_RECORD")
+@Table(name="ORDER_DETAIL")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class PreorderRecord  implements Serializable {
+public class OrderDetail implements Serializable {
 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 8262854396918300042L;
+	private static final long serialVersionUID = 2489784316312930182L;
 	
 	@Id
 	@Column(name="id")
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 	
-	private Date date;
-	
-	@Column(name="machine_id")
-	private int machineId;
-	
-	@Column(name="tray_id")
-	private int trayId;
+	@Column(name="order_id")
+	private int orderId;
 	
 	@Column(name="product_id")
 	private int productId;
 	
-	private int capacity;
+	@Column(name="product_number")
+	private int productNumber;
 	
-	@Column(name="preorder_capacity")
-	private int preorderCapacity;
+	@Column(name="pickup_date")
+	private Date pickupDate;
 
 	public int getId() {
 		return id;
@@ -54,29 +50,12 @@ public class PreorderRecord  implements Serializable {
 		this.id = id;
 	}
 
-	@JsonSerialize(using=DateSerializer.class)
-	public Date getDate() {
-		return date;
+	public int getOrderId() {
+		return orderId;
 	}
 
-	public void setDate(Date date) {
-		this.date = date;
-	}
-
-	public int getMachineId() {
-		return machineId;
-	}
-
-	public void setMachineId(int machineId) {
-		this.machineId = machineId;
-	}
-
-	public int getTrayId() {
-		return trayId;
-	}
-
-	public void setTrayId(int trayId) {
-		this.trayId = trayId;
+	public void setOrderId(int orderId) {
+		this.orderId = orderId;
 	}
 
 	public int getProductId() {
@@ -87,20 +66,21 @@ public class PreorderRecord  implements Serializable {
 		this.productId = productId;
 	}
 
-	public int getCapacity() {
-		return capacity;
+	public int getProductNumber() {
+		return productNumber;
 	}
 
-	public void setCapacity(int capacity) {
-		this.capacity = capacity;
+	public void setProductNumber(int productNumber) {
+		this.productNumber = productNumber;
 	}
 
-	public int getPreorderCapacity() {
-		return preorderCapacity;
+	@JsonSerialize(using=DateSerializer.class)
+	public Date getPickupDate() {
+		return pickupDate;
 	}
 
-	public void setPreorderCapacity(int preorderCapacity) {
-		this.preorderCapacity = preorderCapacity;
+	public void setPickupDate(Date pickupDate) {
+		this.pickupDate = pickupDate;
 	}
 	
 	@Override

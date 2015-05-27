@@ -13,23 +13,27 @@ import com.anybox.utils.AnyboxUtils;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
-@Table(name="CATEGORY")
+@Table(name="POLICY")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class Category implements Serializable {
-
+public class Policy implements Serializable {
+	
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 5000110908675939861L;
+	private static final long serialVersionUID = 5123727109169337050L;
 	
 	@Id
 	@Column(name="id")
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 	
-	private String name;
+	private int scope;
+	
+	private int type;
 	
 	private String description;
+	
+	private double amount;
 
 	public int getId() {
 		return id;
@@ -39,12 +43,20 @@ public class Category implements Serializable {
 		this.id = id;
 	}
 
-	public String getName() {
-		return name;
+	public int getScope() {
+		return scope;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setScope(int scope) {
+		this.scope = scope;
+	}
+
+	public int getType() {
+		return type;
+	}
+
+	public void setType(int type) {
+		this.type = type;
 	}
 
 	public String getDescription() {
@@ -53,6 +65,14 @@ public class Category implements Serializable {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public double getAmount() {
+		return amount;
+	}
+
+	public void setAmount(double amount) {
+		this.amount = amount;
 	}
 	
 	@Override
