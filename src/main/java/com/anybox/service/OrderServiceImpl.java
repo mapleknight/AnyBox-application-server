@@ -101,6 +101,8 @@ public class OrderServiceImpl implements OrderService {
 	@Override
 	@Transactional
 	public Order updateDetail(OrderDetail od) {
+		//TODO should check capacity
+		
 		this.orderDetailDAO.update(od);
 		return this.orderDAO.getById(od.getOrderId());
 	}
@@ -108,6 +110,8 @@ public class OrderServiceImpl implements OrderService {
 	@Override
 	@Transactional
 	public Order updateDetailMultiple(List<OrderDetail> odList) {
+		//TODO should check capacity
+		
 		for(OrderDetail od : odList) {
 			this.orderDetailDAO.update(od);
 		}
@@ -117,6 +121,8 @@ public class OrderServiceImpl implements OrderService {
 	@Override
 	@Transactional
 	public Order update(OrderInfo o) {
+		//TODO should check capacity
+		
 		return this.updateDetailMultiple(o.getDetail());
 	}
 
@@ -125,7 +131,7 @@ public class OrderServiceImpl implements OrderService {
 	public List<Order> list(int userId, String status) {
 		DetachedCriteria dc = DetachedCriteria.forClass(Order.class);
 		dc.add(Restrictions.eq("user_id", userId));
-		if (null == status || status.equalsIgnoreCase("")) {
+		if (null != status && !status.equalsIgnoreCase("")) {
 			dc.add(Restrictions.eq("status", status));
 		} else {
 			dc.add(Restrictions.ne("status", Const.ORDER_STATUS_DELETED));

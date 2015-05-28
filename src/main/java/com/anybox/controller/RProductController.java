@@ -56,7 +56,7 @@ public class RProductController {
 	}
 	
 	@RequestMapping(value = "/rproduct/remove/{id}", method = RequestMethod.PUT)
-    public @ResponseBody ResponseModel removeCustomer(@PathVariable("id") int id){
+    public @ResponseBody ResponseModel remove(@PathVariable("id") int id){
         this.productService.delete(id);
         
         ResponseModel rm = new ResponseModel();
