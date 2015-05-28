@@ -35,9 +35,6 @@ public class PreorderRecord  implements Serializable {
 	@Column(name="machine_id")
 	private int machineId;
 	
-	@Column(name="tray_id")
-	private int trayId;
-	
 	@Column(name="product_id")
 	private int productId;
 	
@@ -69,14 +66,6 @@ public class PreorderRecord  implements Serializable {
 
 	public void setMachineId(int machineId) {
 		this.machineId = machineId;
-	}
-
-	public int getTrayId() {
-		return trayId;
-	}
-
-	public void setTrayId(int trayId) {
-		this.trayId = trayId;
 	}
 
 	public int getProductId() {

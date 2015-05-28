@@ -1,5 +1,6 @@
 package com.anybox.controller;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,9 +11,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.anybox.model.Product;
+import com.anybox.model.ProductWithDetail;
 import com.anybox.model.ResponseModel;
 import com.anybox.service.ProductService;
 import com.anybox.utils.Const;
@@ -32,6 +35,13 @@ public class RProductController {
 	@RequestMapping(value = "/rproducts", method = RequestMethod.GET)
 	public @ResponseBody List<Product> list(Model model) {
 		return this.productService.list();
+	}
+	
+	@RequestMapping(value = "/rproduct/list", method = RequestMethod.GET)
+	public @ResponseBody List<ProductWithDetail> listWithDetail(@RequestParam("machineId") int machineId,
+			@RequestParam("userId") int userId, @RequestParam("date") String date) {
+		
+		return this.productService.listWithDetail(machineId, userId, date);
 	}
 	
 	@RequestMapping(value= "/rproduct", method = RequestMethod.POST)
