@@ -2,8 +2,10 @@ package com.anybox.dao;
 
 import java.util.List;
 
+import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.DetachedCriteria;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
@@ -65,6 +67,15 @@ public class OrderDAOImpl implements OrderDAO {
 			session.delete(m);
 		}
 		logger.info("Order deleted successfully, Order details=" + m);
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Order> listWithCriteria(DetachedCriteria dc) {
+		Session session = this.sessionFactory.getCurrentSession();
+		Criteria cri = dc.getExecutableCriteria(session);
+		List<Order> list = cri.list();
+		return list;
 	}
 
 }

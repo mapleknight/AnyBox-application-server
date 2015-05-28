@@ -123,6 +123,8 @@
 	<beans:bean id="orderDAO" class="com.anybox.dao.OrderDAOImpl">
 		<beans:property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />
 	</beans:bean>
+	<beans:bean id="orderService" class="com.anybox.service.OrderServiceImpl">
+	</beans:bean>
 	
 	<beans:bean id="orderDetailDAO" class="com.anybox.dao.OrderDetailDAOImpl">
 		<beans:property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />

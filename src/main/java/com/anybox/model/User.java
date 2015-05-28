@@ -52,7 +52,7 @@ public class User implements Serializable {
 	@Column(name="policy_id")
 	private int policyId;
 	
-	@Column(name="create_time")
+	@Column(name="create_time", updatable=false)
 	private Date createTime;
 
 	public int getId() {

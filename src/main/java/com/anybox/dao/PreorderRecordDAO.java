@@ -8,6 +8,8 @@ import com.anybox.model.PreorderRecord;
 
 public interface PreorderRecordDAO extends BasicDAO<PreorderRecord> {
 
-	List<PreorderRecord> listWithCriteria(DetachedCriteria dc);
+	public List<PreorderRecord> listWithCriteria(DetachedCriteria dc);
+	
+	public void updatePreorderedCapacity(int id, int increment);
 
 }

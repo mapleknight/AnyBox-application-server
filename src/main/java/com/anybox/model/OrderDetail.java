@@ -33,6 +33,9 @@ public class OrderDetail implements Serializable {
 	@Column(name="order_id")
 	private int orderId;
 	
+	@Column(name="machine_id")
+	private int machineId;
+	
 	@Column(name="product_id")
 	private int productId;
 	
@@ -56,6 +59,14 @@ public class OrderDetail implements Serializable {
 
 	public void setOrderId(int orderId) {
 		this.orderId = orderId;
+	}
+
+	public int getMachineId() {
+		return machineId;
+	}
+
+	public void setMachineId(int machineId) {
+		this.machineId = machineId;
 	}
 
 	public int getProductId() {

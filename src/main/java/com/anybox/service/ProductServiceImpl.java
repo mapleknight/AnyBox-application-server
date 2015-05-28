@@ -94,7 +94,7 @@ public class ProductServiceImpl implements ProductService {
 		}
 
 		// step 3, search PreorderRecord Table with productId in product map, date, machineId
-		// if entry exists, check capacity
+		// if entry exists, calculate free capacity
 		// if entry not exists, add entry with total capacity
 		Iterator<Entry<Integer, Integer>> iterator = productMap.entrySet().iterator();
 		while (iterator.hasNext()) {
@@ -114,10 +114,20 @@ public class ProductServiceImpl implements ProductService {
 			pd.setProduct(this.getById(productId));
 			
 			if(recordList.size() > 0) {
-				pd.setAmount(recordList.get(0).getCapacity());
+				//calculate free capacity
+				pd.setAmount(recordList.get(0).getCapacity() - recordList.get(0).getPreorderCapacity());
 			}
 			else {
 				pd.setAmount(entry.getValue());
+				
+				//add entry with total capacity
+				PreorderRecord record = new PreorderRecord();
+				record.setCapacity(entry.getValue());
+				record.setDate(d);
+				record.setMachineId(machineId);
+				record.setProductId(productId);
+				record.setPreorderCapacity(0);
+				this.preorderRecordDAO.add(record);
 			}
 			
 			// step 4, calculate real price from applied policy of userId

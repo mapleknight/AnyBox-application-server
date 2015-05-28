@@ -51,11 +51,12 @@ public class RCustomerController {
 		}
 	}
 	
-	@RequestMapping(value = "/rremove/{id}", method = RequestMethod.PUT)
+	@RequestMapping(value = "/rcustomer/remove/{id}", method = RequestMethod.PUT)
     public @ResponseBody String removeCustomer(@PathVariable("id") int id){
 		
         this.customerService.removeCustomer(id);
         //return "redirect:/customers";
         return "Successfully Removed customer with id " + id;
     }
+	
 }

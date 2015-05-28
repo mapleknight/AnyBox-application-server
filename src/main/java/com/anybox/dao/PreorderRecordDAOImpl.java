@@ -3,6 +3,7 @@ package com.anybox.dao;
 import java.util.List;
 
 import org.hibernate.Criteria;
+import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.DetachedCriteria;
@@ -77,6 +78,18 @@ public class PreorderRecordDAOImpl implements PreorderRecordDAO {
 		List<PreorderRecord> list = cri.list();
 
 		return list;
+	}
+	
+	@Override
+	public void updatePreorderedCapacity(int id, int increment) {
+		Session session = this.sessionFactory.getCurrentSession();
+		// UPDATE `anybox`.`Preorder_record` SET `preorder_capacity`=`preorder_capacity`+ increment 
+		// WHERE `id`=?
+		String sql = "update Preorder_record set preorder_capacity=preorder_capacity + ? where id=?";
+		SQLQuery query = session.createSQLQuery(sql);
+		query.setInteger(0, increment);
+		query.setInteger(1, id);
+		query.executeUpdate();
 	}
 
 }

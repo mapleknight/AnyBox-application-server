@@ -1,6 +1,7 @@
 package com.anybox.model;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -29,11 +30,11 @@ public class Order implements Serializable {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 	
-	@Column(name="user_id")
+	@Column(name="user_id", updatable=false)
 	private int userId;
 	
-	@Column(name="create_time")
-	private int createTime;
+	@Column(name="create_time", updatable=false)
+	private Date createTime;
 	
 	private String status;
 
@@ -54,11 +55,11 @@ public class Order implements Serializable {
 	}
 
 	@JsonSerialize(using=DateSerializer.class)
-	public int getCreateTime() {
+	public Date getCreateTime() {
 		return createTime;
 	}
 
-	public void setCreateTime(int createTime) {
+	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
 	}
 
