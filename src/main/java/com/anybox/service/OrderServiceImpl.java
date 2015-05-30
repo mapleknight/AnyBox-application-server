@@ -19,7 +19,7 @@ import com.anybox.model.Order;
 import com.anybox.model.OrderDetail;
 import com.anybox.model.OrderInfo;
 import com.anybox.model.PreorderRecord;
-import com.anybox.Exception.NotEnoughException;
+import com.anybox.Exception.NotEnoughProductException;
 import com.anybox.utils.Const;
 
 @Service
@@ -73,7 +73,7 @@ public class OrderServiceImpl implements OrderService {
 			// step 2, if capacity not enough, throw runtime exception,
 			// transaction rollback
 			if (orderedCapacity + amount > capacity) {
-				throw new NotEnoughException(odDate, productId, machineId);
+				throw new NotEnoughProductException(odDate, productId, machineId);
 			}
 
 			// step 3, update PreorderRecord entry
@@ -84,7 +84,7 @@ public class OrderServiceImpl implements OrderService {
 					.getId());
 			int updatedOrderedCapacity = pdUpdated.getPreorderCapacity();
 			if (updatedOrderedCapacity > capacity) {
-				throw new NotEnoughException(odDate, productId, machineId);
+				throw new NotEnoughProductException(odDate, productId, machineId);
 			}
 
 			// step 5, insert entry to OrderDetail table

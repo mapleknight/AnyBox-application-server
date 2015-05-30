@@ -2,6 +2,7 @@ package com.anybox.controller;
 
 import java.util.List;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -19,35 +20,34 @@ import com.anybox.utils.Const;
 
 @Controller
 public class ROrderController {
-	
-	@Autowired(required=true)
-	@Qualifier(value="orderService")
+
+	@Autowired(required = true)
+	@Qualifier(value = "orderService")
 	private OrderService orderService;
-	
+
 	@RequestMapping(value = "/rorder/add", method = RequestMethod.POST)
 	public @ResponseBody Order create(@RequestBody OrderInfo oi) {
 		return this.orderService.create(oi);
 	}
-	
+
 	@RequestMapping(value = "/rorder/list/{userId}", method = RequestMethod.GET)
-	public @ResponseBody List<Order> listWithUserId(@PathVariable("userId") int userId) {
+	public @ResponseBody List<Order> listWithUserId(
+			@PathVariable("userId") int userId) {
 		return this.orderService.list(userId, "");
 	}
-	
+
 	@RequestMapping(value = "/rorder/{id}", method = RequestMethod.GET)
 	public @ResponseBody OrderInfo getById(@PathVariable("id") int id) {
 		return this.orderService.getById(id);
 	}
-	
+
 	@RequestMapping(value = "/rorder/remove/{id}", method = RequestMethod.PUT)
 	public @ResponseBody ResponseModel delete(@PathVariable("id") int id) {
-		
+
 		this.orderService.delete(id);
 		ResponseModel rm = new ResponseModel();
-	    rm.setCode(Const.SUCCESS);
+		rm.setCode(Const.SUCCESS);
 		return rm;
 	}
-	
-	
 
 }

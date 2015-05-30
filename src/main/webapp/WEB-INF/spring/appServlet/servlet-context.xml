@@ -36,6 +36,10 @@
             </beans:list>
         </beans:property>
     </beans:bean>
+    
+    <!-- <beans:bean id="handlerExceptionResolver" class="com.anybox.controller.GlobalExceptionHandler">
+		<beans:property name="messageConverters" ref="jsonMessageConverter"/> 见上一篇，有定义过，标有@ResponseBody被此messageConverters输出
+	</beans:bean> -->
      
     <!-- Configure bean to convert JSON to POJO and vice versa -->
     <beans:bean id="jsonMessageConverter" class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">

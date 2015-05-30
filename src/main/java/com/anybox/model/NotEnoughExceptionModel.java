@@ -1,20 +1,19 @@
-package com.anybox.Exception;
+package com.anybox.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class NotEnoughException extends RuntimeException {
+import javax.persistence.Entity;
+
+import com.anybox.utils.AnyboxUtils;
+
+@Entity
+public class NotEnoughExceptionModel implements Serializable {
 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -5170178296505266515L;
-	
-	public NotEnoughException(Date date, int productId, int machineId) {
-		super("Product amount not enough!");
-		this.date = date;
-		this.productId = productId;
-		this.machineId = machineId;
-	}
+	private static final long serialVersionUID = -7786788688620199145L;
 	
 	private Date date;
 	
@@ -44,6 +43,11 @@ public class NotEnoughException extends RuntimeException {
 
 	public void setMachineId(int machineId) {
 		this.machineId = machineId;
+	}
+	
+	@Override
+	public String toString() {
+		return AnyboxUtils.toString(this);
 	}
 
 }
