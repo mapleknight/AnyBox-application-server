@@ -18,7 +18,6 @@ public class AnyboxUtils {
 		return result;
 	}
 	
-	
 	public static void main(String args[]) {
 		User user = new User();
 		user.setEmail("wangke@gmail.com");

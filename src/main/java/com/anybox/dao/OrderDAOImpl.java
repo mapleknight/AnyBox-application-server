@@ -27,7 +27,7 @@ public class OrderDAOImpl implements OrderDAO {
 	@Override
 	public Order add(Order o) {
 		Session session = this.sessionFactory.getCurrentSession();
-		session.save(o);
+		session.persist(o);
 		logger.info("Add Order successfully, Order Details=" + o);
 		return o;
 	}

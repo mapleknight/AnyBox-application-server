@@ -80,7 +80,7 @@ public class ProductServiceImpl implements ProductService {
 		
 		// step 1, get Tray list of machineId
 		DetachedCriteria dc1 = DetachedCriteria.forClass(Tray.class);
-		dc1.add(Restrictions.eq("machine_id", machineId));
+		dc1.add(Restrictions.eq("machineId", machineId));
 		List<Tray> trayList = this.trayDAO.listWithCriteria(dc1);
 
 		// step 2, traverse Tray list to get product map <productId, total
@@ -104,7 +104,7 @@ public class ProductServiceImpl implements ProductService {
 			
 			DetachedCriteria dc2 = DetachedCriteria.forClass(PreorderRecord.class);
 			dc2.add(Restrictions.eq("productId", productId));
-			dc2.add(Restrictions.eq("machine_id", machineId));
+			dc2.add(Restrictions.eq("machineId", machineId));
 			dc2.add(Restrictions.eq("date", d));
 			
 			List<PreorderRecord> recordList = this.preorderRecordDAO.listWithCriteria(dc2);

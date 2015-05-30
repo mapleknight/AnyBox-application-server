@@ -19,7 +19,7 @@ import com.anybox.model.Order;
 import com.anybox.model.OrderDetail;
 import com.anybox.model.OrderInfo;
 import com.anybox.model.PreorderRecord;
-import com.anybox.model.Exception.NotEnoughException;
+import com.anybox.Exception.NotEnoughException;
 import com.anybox.utils.Const;
 
 @Service
@@ -60,7 +60,7 @@ public class OrderServiceImpl implements OrderService {
 			DetachedCriteria dc2 = DetachedCriteria
 					.forClass(PreorderRecord.class);
 			dc2.add(Restrictions.eq("productId", productId));
-			dc2.add(Restrictions.eq("machine_id", machineId));
+			dc2.add(Restrictions.eq("machineId", machineId));
 			dc2.add(Restrictions.eq("date", odDate));
 
 			List<PreorderRecord> recordList = this.preorderRecordDAO

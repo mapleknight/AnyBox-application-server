@@ -13,7 +13,7 @@ import com.anybox.utils.AnyboxUtils;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
-@Table(name="CATEGORY")
+@Table(name="TRAY")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Tray implements Serializable {
 	

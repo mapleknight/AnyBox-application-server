@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.persistence.Entity;
 
+import com.anybox.utils.AnyboxUtils;
+
 @Entity
 public class OrderInfo implements Serializable {
 
@@ -31,6 +33,11 @@ public class OrderInfo implements Serializable {
 
 	public void setDetail(List<OrderDetail> detail) {
 		this.detail = detail;
+	}
+	
+	@Override
+	public String toString() {
+		return AnyboxUtils.toString(this);
 	}
 
 }

@@ -29,7 +29,7 @@ public class UserDAOImpl implements UserDAO {
 		Session session = this.sessionFactory.getCurrentSession();
 		session.persist(u);
 		logger.info("User registered successfully, User Details=" + u);
-		return this.getUserByEmail(u.getEmail());
+		return u;
 	}
 
 	@SuppressWarnings("unchecked")

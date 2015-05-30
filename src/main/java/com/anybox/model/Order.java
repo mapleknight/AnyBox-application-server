@@ -16,7 +16,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.DateSerializer;
 
 @Entity
-@Table(name="ORDER")
+@Table(name="USER_ORDER")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Order implements Serializable {
 
@@ -30,7 +30,7 @@ public class Order implements Serializable {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 	
-	@Column(name="user_id", updatable=false)
+	@Column(name="user_id")
 	private int userId;
 	
 	@Column(name="create_time", updatable=false)
