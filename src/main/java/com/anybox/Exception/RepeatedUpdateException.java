@@ -10,5 +10,4 @@ public class RepeatedUpdateException extends Exception{
 	public RepeatedUpdateException(){
 		super();
 	}
-
 }

@@ -8,9 +8,9 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.anybox.Exception.UserNotExistException;
 import com.anybox.dao.UserDAO;
 import com.anybox.model.User;
-import com.anybox.utils.Const;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -30,7 +30,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	@Transactional
-	public User login(User u) {
+	public User login(User u) throws UserNotExistException {
 		
 		List<User> list = this.userDAO.getUserByEmailPwd(u);
 		if(list.size() > 0)
@@ -38,9 +38,7 @@ public class UserServiceImpl implements UserService {
 			return list.get(0);
 		}
 		
-		User user = new User();
-		user.setId(Const.ERR_TAG);
-		return user;
+		throw new UserNotExistException();
 	}
 
 	@Override

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.anybox.Exception.UserNotExistException;
 import com.anybox.model.User;
 import com.anybox.service.UserService;
 
@@ -28,7 +29,7 @@ public class RUserController {
 	}
 	
 	@RequestMapping(value= "/ruser/login", method = RequestMethod.POST)
-	public @ResponseBody User login(@RequestBody User u){
+	public @ResponseBody User login(@RequestBody User u) throws UserNotExistException{
 		
 		User user = this.userService.login(u);
 		

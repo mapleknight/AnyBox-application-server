@@ -33,7 +33,7 @@ public class Policy implements Serializable {
 	
 	private String description;
 	
-	private double amount;
+	private double discount;
 
 	public int getId() {
 		return id;
@@ -67,14 +67,15 @@ public class Policy implements Serializable {
 		this.description = description;
 	}
 
-	public double getAmount() {
-		return amount;
+	
+	public double getDiscount() {
+		return discount;
 	}
 
-	public void setAmount(double amount) {
-		this.amount = amount;
+	public void setDiscount(double discount) {
+		this.discount = discount;
 	}
-	
+
 	@Override
 	public String toString() {
 		return AnyboxUtils.toString(this);

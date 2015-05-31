@@ -15,6 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver;
 
 import com.anybox.Exception.NotEnoughProductException;
+import com.anybox.Exception.UserNotExistException;
 import com.anybox.model.NotEnoughExceptionModel;
 
 @ControllerAdvice
@@ -32,6 +33,14 @@ public class GlobalExceptionHandler extends ExceptionHandlerExceptionResolver {
 		return new ModelAndView().addObject("error", "err msg");
 	}
 
+	@ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
+	@ExceptionHandler(SQLException.class)
+	public void handleSQLException(Exception ex) {
+		logger.info("SQLException Occured:: " + ex.toString());
+		ex.printStackTrace();
+	}
+	
+
 	@ResponseStatus(value = HttpStatus.BAD_REQUEST)
 	@ExceptionHandler(NotEnoughProductException.class)
 	public @ResponseBody NotEnoughExceptionModel handleNotEnoughProductException(
@@ -40,12 +49,12 @@ public class GlobalExceptionHandler extends ExceptionHandlerExceptionResolver {
 				+ ex.getModel().toString());
 		return ex.getModel();
 	}
-
-	@ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
-	@ExceptionHandler(SQLException.class)
-	public void handleSQLException(Exception ex) {
-		logger.info("SQLException Occured:: " + ex.toString());
-		ex.printStackTrace();
+	
+	@ResponseStatus(value = HttpStatus.NOT_FOUND)
+	@ExceptionHandler(UserNotExistException.class)
+	public void handleUserNotExistException(Exception ex) {
+		logger.info("UserNotExistException Occured:: " + ex.toString());
+		//ex.printStackTrace();
 	}
 
 }
