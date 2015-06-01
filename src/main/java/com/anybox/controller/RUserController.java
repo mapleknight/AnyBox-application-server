@@ -1,8 +1,11 @@
 package com.anybox.controller;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,7 +24,7 @@ public class RUserController {
 	private UserService userService;
 	
 	@RequestMapping(value= "/ruser/register", method = RequestMethod.POST)
-	public @ResponseBody User register(@RequestBody User u){
+	public @ResponseBody User register(@RequestBody User u, HttpServletResponse response){
 		
 		User user = this.userService.register(u);
 		
@@ -29,10 +32,10 @@ public class RUserController {
 	}
 	
 	@RequestMapping(value= "/ruser/login", method = RequestMethod.POST)
-	public @ResponseBody User login(@RequestBody User u) throws UserNotExistException{
+	public @ResponseBody User login(@RequestBody User u, HttpServletResponse response) throws UserNotExistException{
 		
 		User user = this.userService.login(u);
-		
+		//response.setHeader("Access-Control-Allow-Origin", "*");
 		return user;
 	}
 	
@@ -44,5 +47,11 @@ public class RUserController {
 		return user;
 	}
 	
+	/*
+	@ModelAttribute
+	public void setVaryResponseHeader(HttpServletResponse response) {
+	    response.setHeader("Vary", "Accept");
+	}
+	*/
 
 }

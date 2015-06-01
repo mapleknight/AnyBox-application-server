@@ -44,6 +44,8 @@
     <!-- Configure bean to convert JSON to POJO and vice versa -->
     <beans:bean id="jsonMessageConverter" class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
     </beans:bean> 
+    <!-- <beans:bean id="jsonMessageConverter" class="com.anybox.controller.AddHeaderMappingJacksonHttpMessageConverter">
+    </beans:bean> -->
     
 	<beans:bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
 		destroy-method="close">
