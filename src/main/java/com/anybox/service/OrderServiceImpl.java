@@ -93,6 +93,8 @@ public class OrderServiceImpl implements OrderService {
 		}
 
 		order.setStatus(Const.ORDER_STATUS_UNPAID);
+		//TODO calcualte total price of this order
+		
 		this.orderDAO.update(order);
 
 		return order;

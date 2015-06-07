@@ -50,7 +50,7 @@ public class User implements Serializable {
 	 * this field indicates the policies apply to this user
 	 */
 	@Column(name="policy_id")
-	private int policyId;
+	private String policyId;
 	
 	@Column(name="create_time", updatable=false)
 	private Date createTime;
@@ -103,11 +103,11 @@ public class User implements Serializable {
 		this.invitedBy = invitedBy;
 	}
 
-	public int getPolicyId() {
+	public String getPolicyId() {
 		return policyId;
 	}
 
-	public void setPolicyId(int policyId) {
+	public void setPolicyId(String policyId) {
 		this.policyId = policyId;
 	}
 

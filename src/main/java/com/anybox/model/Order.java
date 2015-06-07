@@ -37,6 +37,8 @@ public class Order implements Serializable {
 	private Date createTime;
 	
 	private String status;
+	
+	private double price;
 
 	public int getId() {
 		return id;
@@ -71,6 +73,14 @@ public class Order implements Serializable {
 		this.status = status;
 	}
 	
+	public double getPrice() {
+		return price;
+	}
+
+	public void setPrice(double price) {
+		this.price = price;
+	}
+
 	@Override
 	public String toString() {
 		return AnyboxUtils.toString(this);

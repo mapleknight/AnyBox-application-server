@@ -37,6 +37,9 @@ public class Product implements Serializable {
 	@Column(name="original_price")
 	private double originalPrice;
 	
+	@Column(name="policy_id")
+	private String policyId;
+	
 	/**
 	 * url of product img1
 	 */
@@ -88,6 +91,14 @@ public class Product implements Serializable {
 
 	public void setOriginalPrice(double originalPrice) {
 		this.originalPrice = originalPrice;
+	}
+
+	public String getPolicyId() {
+		return policyId;
+	}
+
+	public void setPolicyId(String policyId) {
+		this.policyId = policyId;
 	}
 
 	public String getImg1() {

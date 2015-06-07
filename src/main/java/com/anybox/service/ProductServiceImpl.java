@@ -17,9 +17,12 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.anybox.dao.PolicyDAO;
 import com.anybox.dao.PreorderRecordDAO;
 import com.anybox.dao.ProductDAO;
 import com.anybox.dao.TrayDAO;
+import com.anybox.dao.UserDAO;
+import com.anybox.model.Policy;
 import com.anybox.model.PreorderRecord;
 import com.anybox.model.Product;
 import com.anybox.model.ProductWithDetail;
@@ -40,6 +43,14 @@ public class ProductServiceImpl implements ProductService {
 	@Autowired(required = true)
 	@Qualifier(value = "preorderRecordDAO")
 	private PreorderRecordDAO preorderRecordDAO;
+	
+	@Autowired(required = true)
+	@Qualifier(value = "policyDAO")
+	private PolicyDAO policyDAO;
+	
+	@Autowired(required = true)
+	@Qualifier(value = "userDAO")
+	private UserDAO userDAO;
 
 	@Override
 	@Transactional
@@ -77,6 +88,14 @@ public class ProductServiceImpl implements ProductService {
 			String date) {
 
 		List<ProductWithDetail> list = new ArrayList<ProductWithDetail>();
+		
+		//step 0, get policies applied to this user
+		String userPolicyIds = null;
+		String[] userPolicyArr = null;
+		if(null != userDAO.getUserById(userId).getPolicyId()) {
+			userPolicyIds = userDAO.getUserById(userId).getPolicyId();
+			userPolicyArr = userPolicyIds.split(",");
+		}
 		
 		// step 1, get Tray list of machineId
 		DetachedCriteria dc1 = DetachedCriteria.forClass(Tray.class);
@@ -130,8 +149,27 @@ public class ProductServiceImpl implements ProductService {
 				this.preorderRecordDAO.add(record);
 			}
 			
-			// step 4, calculate real price from applied policy of userId
-			//TODO
+			// step 4, calculate real price from applied policy of userId and productId
+			double price = pd.getProduct().getOriginalPrice();
+			double discount = 1;
+			if(null != pd.getProduct().getPolicyId()) {
+				String policyId = pd.getProduct().getPolicyId();
+				String[] policyArr = policyId.split(",");
+				for (String id : policyArr) {
+					int pid = Integer.valueOf(id);
+					Policy p = policyDAO.getById(pid);
+					discount = discount * (1 - p.getDiscount());
+				}
+			}
+			if(null != userPolicyArr){
+				for (String id : userPolicyArr) {
+					int pid = Integer.valueOf(id);
+					Policy p = policyDAO.getById(pid);
+					discount = discount * (1 - p.getDiscount());
+				}
+			}
+			double realPrice = price * discount;
+			pd.setRealPrice(realPrice);
 			
 			list.add(pd);
 		}
