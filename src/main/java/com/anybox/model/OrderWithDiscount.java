@@ -2,23 +2,23 @@ package com.anybox.model;
 
 import com.anybox.utils.AnyboxUtils;
 
-public class OrderWithPrice extends OrderDetail {
+public class OrderWithDiscount extends OrderDetail {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -5535708564402220713L;
 	
-	private double price;
+	private double discount;
 
-	public double getPrice() {
-		return price;
+	public double getDiscount() {
+		return discount;
 	}
 
-	public void setPrice(double price) {
-		this.price = price;
+	public void setDiscount(double discount) {
+		this.discount = discount;
 	}
-	
+
 	@Override
 	public String toString() {
 		return AnyboxUtils.toString(this);

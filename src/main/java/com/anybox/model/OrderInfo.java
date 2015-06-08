@@ -19,8 +19,6 @@ public class OrderInfo implements Serializable {
 
 	private List<OrderDetail> detail;
 	
-	private String promoCode;
-
 	public Order getOrder() {
 		return order;
 	}
@@ -37,14 +35,6 @@ public class OrderInfo implements Serializable {
 		this.detail = detail;
 	}
 	
-	public String getPromoCode() {
-		return promoCode;
-	}
-
-	public void setPromoCode(String promoCode) {
-		this.promoCode = promoCode;
-	}
-
 	@Override
 	public String toString() {
 		return AnyboxUtils.toString(this);

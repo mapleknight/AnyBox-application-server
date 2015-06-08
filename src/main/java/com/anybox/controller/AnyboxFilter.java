@@ -19,6 +19,8 @@ public class AnyboxFilter extends OncePerRequestFilter {
 		//		&& "OPTIONS".equals(request.getMethod())) {
 			// CORS "pre-flight" request
 			response.addHeader("Access-Control-Allow-Origin", "*");
+			response.addHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+			//Access-Control-Allow-Headers "Origin, X-Requested-With, Content-Type, Accept"
 //			response.addHeader("Access-Control-Allow-Methods",
 //					"GET, POST, PUT, DELETE, OPTIONS");
 //			response.addHeader("Access-Control-Allow-Headers",

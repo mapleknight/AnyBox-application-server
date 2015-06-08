@@ -39,6 +39,8 @@ public class Order implements Serializable {
 	private String status;
 	
 	private double price;
+	
+	private String promocode;
 
 	public int getId() {
 		return id;
@@ -79,6 +81,14 @@ public class Order implements Serializable {
 
 	public void setPrice(double price) {
 		this.price = price;
+	}
+
+	public String getPromocode() {
+		return promocode;
+	}
+
+	public void setPromocode(String promocode) {
+		this.promocode = promocode;
 	}
 
 	@Override
