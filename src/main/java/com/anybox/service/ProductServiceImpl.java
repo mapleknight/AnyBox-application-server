@@ -164,6 +164,7 @@ public class ProductServiceImpl implements ProductService {
 			if(null != userPolicyArr){
 				for (String id : userPolicyArr) {
 					int pid = Integer.valueOf(id);
+					if(pid == 0) break;
 					Policy p = policyDAO.getById(pid);
 					discount = discount * (1 - p.getDiscount());
 				}
