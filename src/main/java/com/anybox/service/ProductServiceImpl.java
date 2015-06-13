@@ -134,10 +134,10 @@ public class ProductServiceImpl implements ProductService {
 			
 			if(recordList.size() > 0) {
 				//calculate free capacity
-				pd.setAmount(recordList.get(0).getCapacity() - recordList.get(0).getPreorderCapacity());
+				pd.setStorage(recordList.get(0).getCapacity() - recordList.get(0).getPreorderCapacity());
 			}
 			else {
-				pd.setAmount(entry.getValue());
+				pd.setStorage(entry.getValue());
 				
 				//add entry with total capacity
 				PreorderRecord record = new PreorderRecord();

@@ -16,7 +16,7 @@ public class ProductWithDetail implements Serializable {
 	
 	private double realPrice;
 	
-	private int amount;
+	private int storage;
 
 	public Product getProduct() {
 		return product;
@@ -34,11 +34,12 @@ public class ProductWithDetail implements Serializable {
 		this.realPrice = realPrice;
 	}
 
-	public int getAmount() {
-		return amount;
+	public int getStorage() {
+		return storage;
 	}
 
-	public void setAmount(int amount) {
-		this.amount = amount;
+	public void setStorage(int storage) {
+		this.storage = storage;
 	}
+
 }
