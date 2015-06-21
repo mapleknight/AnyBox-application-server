@@ -94,7 +94,9 @@ public class ProductServiceImpl implements ProductService {
 		String[] userPolicyArr = null;
 		if(null != userDAO.getUserById(userId).getPolicyId()) {
 			userPolicyIds = userDAO.getUserById(userId).getPolicyId();
-			userPolicyArr = userPolicyIds.split(",");
+			if(null != userPolicyIds) {
+				userPolicyArr = userPolicyIds.split(",");
+			}
 		}
 		
 		// step 1, get Tray list of machineId

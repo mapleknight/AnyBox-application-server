@@ -9,79 +9,72 @@ import org.hibernate.criterion.DetachedCriteria;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
-import com.anybox.model.Order;
+import com.anybox.model.EventCard;
 
 @Repository
-public class OrderDAOImpl implements OrderDAO {
-
+public class EventCardDAOImpl implements EventCardDAO {
+	
 	private static final Logger logger = LoggerFactory
-			.getLogger(OrderDAOImpl.class);
+			.getLogger(EventCardDAOImpl.class);
 
 	private SessionFactory sessionFactory;
 
 	public void setSessionFactory(SessionFactory sf) {
 		this.sessionFactory = sf;
 	}
-	
+
 	@Override
-	@Transactional
-	public Order add(Order o) {
+	public EventCard add(EventCard t) {
 		Session session = this.sessionFactory.getCurrentSession();
-		session.persist(o);
-		logger.info("Add Order successfully, Order Details=" + o);
-		return o;
+		session.save(t);
+		logger.info("Add EventCard successfully, EventCard Details=" + t);
+		return t;
 	}
 
 	@Override
-	@Transactional
-	public Order update(Order t) {
+	public EventCard update(EventCard t) {
 		Session session = this.sessionFactory.getCurrentSession();
 		session.update(t);
-		logger.info("Update Order successfully, Order Details=" + t);
+		logger.info("Update EventCard successfully, EventCard Details=" + t);
 		return t;
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
-	@Transactional
-	public List<Order> list() {
+	public List<EventCard> list() {
 		Session session = this.sessionFactory.getCurrentSession();
-		List<Order> orderList = session.createQuery("from Order").list();
-		for(Order m : orderList){
-			logger.info("Order List:" + m);
+		List<EventCard> eventCardList = session.createQuery("from event_card").list();
+		for(EventCard m : eventCardList){
+			logger.info("EventCard List:" + m);
 		}
-		return orderList;
+		return eventCardList;
 	}
 
 	@Override
-	@Transactional
-	public Order getById(int id) {
+	public EventCard getById(int id) {
 		Session session = this.sessionFactory.getCurrentSession();		
-		Order m = (Order) session.load(Order.class, new Integer(id));
-		logger.info("Order loaded successfully, Order details=" + m);
-		return m;
+		EventCard o = (EventCard) session.load(EventCard.class, new Integer(id));
+		logger.info("EventCard loaded successfully, EventCard details=" + o);
+		return o;
 	}
 
 	@Override
-	@Transactional
 	public void delete(int id) {
 		Session session = this.sessionFactory.getCurrentSession();
-		Order m = (Order) session.load(Order.class, new Integer(id));
-		if(null != m){
-			session.delete(m);
+		EventCard o = (EventCard) session.load(EventCard.class, new Integer(id));
+		if(null != o){
+			session.delete(o);
 		}
-		logger.info("Order deleted successfully, Order details=" + m);
+		logger.info("EventCard deleted successfully, EventCard details=" + o);
 	}
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	@Transactional
-	public List<Order> listWithCriteria(DetachedCriteria dc) {
+	public List<EventCard> listWithCriteria(DetachedCriteria dc) {
 		Session session = this.sessionFactory.getCurrentSession();
 		Criteria cri = dc.getExecutableCriteria(session);
-		List<Order> list = cri.list();
+		List<EventCard> list = cri.list();
 		return list;
 	}
 

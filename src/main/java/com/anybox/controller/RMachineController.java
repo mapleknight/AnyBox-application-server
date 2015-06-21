@@ -46,7 +46,7 @@ public class RMachineController {
 	}
 	
 	@RequestMapping(value = "/rmachine/remove/{id}", method = RequestMethod.PUT)
-    public @ResponseBody ResponseModel removeCustomer(@PathVariable("id") int id){
+    public @ResponseBody ResponseModel removeMachine(@PathVariable("id") int id){
         this.machineService.delete(id);
         
         ResponseModel rm = new ResponseModel();

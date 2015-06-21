@@ -144,6 +144,11 @@
 		<beans:property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />
 	</beans:bean>
 	
+	<beans:bean id="eventCardDAO" class="com.anybox.dao.EventCardDAOImpl">
+		<beans:property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />
+	</beans:bean>
+	<beans:bean id="eventCardService" class="com.anybox.service.EventCardServiceImpl">
+	</beans:bean>
 	
 	
 	<beans:bean id="multipartResolver"

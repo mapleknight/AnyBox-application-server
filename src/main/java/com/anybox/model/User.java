@@ -54,6 +54,9 @@ public class User implements Serializable {
 	
 	@Column(name="create_time", updatable=false)
 	private Date createTime;
+	
+	@Column(name="user_code", updatable=false)
+	private String userCode;
 
 	public int getId() {
 		return id;
@@ -120,6 +123,14 @@ public class User implements Serializable {
 		this.createTime = createTime;
 	}
 	
+	public String getUserCode() {
+		return userCode;
+	}
+
+	public void setUserCode(String userCode) {
+		this.userCode = userCode;
+	}
+
 	@Override
 	public String toString() {
 		return AnyboxUtils.toString(this);

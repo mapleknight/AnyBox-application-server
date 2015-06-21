@@ -45,7 +45,7 @@ public class PreorderRecordDAOImpl implements PreorderRecordDAO {
 	@Override
 	public List<PreorderRecord> list() {
 		Session session = this.sessionFactory.getCurrentSession();
-		List<PreorderRecord> preorderRecordList = session.createQuery("from PreorderRecord").list();
+		List<PreorderRecord> preorderRecordList = session.createQuery("from Preorder_record").list();
 		for(PreorderRecord o : preorderRecordList){
 			logger.info("PreorderRecord List:" + o);
 		}

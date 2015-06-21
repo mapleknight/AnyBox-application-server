@@ -14,11 +14,16 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.anybox.dao.OrderDAO;
 import com.anybox.dao.OrderDetailDAO;
+import com.anybox.dao.PolicyDAO;
 import com.anybox.dao.PreorderRecordDAO;
+import com.anybox.dao.ProductDAO;
+import com.anybox.dao.UserDAO;
 import com.anybox.model.Order;
 import com.anybox.model.OrderDetail;
 import com.anybox.model.OrderInfo;
+import com.anybox.model.Policy;
 import com.anybox.model.PreorderRecord;
+import com.anybox.model.Product;
 import com.anybox.Exception.NotEnoughProductException;
 import com.anybox.utils.Const;
 
@@ -37,6 +42,18 @@ public class OrderServiceImpl implements OrderService {
 	@Qualifier(value = "preorderRecordDAO")
 	private PreorderRecordDAO preorderRecordDAO;
 
+	@Autowired(required = true)
+	@Qualifier(value = "userDAO")
+	private UserDAO userDAO;
+
+	@Autowired(required = true)
+	@Qualifier(value = "productDAO")
+	private ProductDAO productDAO;
+
+	@Autowired(required = true)
+	@Qualifier(value = "policyDAO")
+	private PolicyDAO policyDAO;
+
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.REPEATABLE_READ)
 	public Order create(OrderInfo o) {
@@ -48,6 +65,18 @@ public class OrderServiceImpl implements OrderService {
 		int orderId = order.getId();
 
 		List<OrderDetail> odl = o.getDetail();
+
+		String userPolicyIds = null;
+		String[] userPolicyArr = null;
+		if (null != userDAO.getUserById(order.getUserId()).getPolicyId()) {
+			userPolicyIds = userDAO.getUserById(order.getUserId())
+					.getPolicyId();
+			if (null != userPolicyIds) {
+				userPolicyArr = userPolicyIds.split(",");
+			}
+		}
+
+		double totalPrice = 0;
 
 		// traverse order detail list
 		for (OrderDetail od : odl) {
@@ -73,19 +102,50 @@ public class OrderServiceImpl implements OrderService {
 			// step 2, if capacity not enough, throw runtime exception,
 			// transaction rollback
 			if (orderedCapacity + amount > capacity) {
-				throw new NotEnoughProductException(odDate, productId, machineId);
+				throw new NotEnoughProductException(odDate, productId,
+						machineId);
 			}
 
-			// step 3, update PreorderRecord entry
-			this.preorderRecordDAO.updatePreorderedCapacity(pd.getId(), amount);
+			// step 3, update PreorderRecord entry TODO should be updated when
+			// paid
+			// this.preorderRecordDAO.updatePreorderedCapacity(pd.getId(),
+			// amount);
 
 			// step 4, double check whether capacity overflows
-			PreorderRecord pdUpdated = this.preorderRecordDAO.getById(pd
-					.getId());
-			int updatedOrderedCapacity = pdUpdated.getPreorderCapacity();
-			if (updatedOrderedCapacity > capacity) {
-				throw new NotEnoughProductException(odDate, productId, machineId);
+			/*
+			 * PreorderRecord pdUpdated = this.preorderRecordDAO.getById(pd
+			 * .getId()); int updatedOrderedCapacity =
+			 * pdUpdated.getPreorderCapacity(); if (updatedOrderedCapacity >
+			 * capacity) { throw new NotEnoughProductException(odDate,
+			 * productId, machineId); }
+			 */
+
+			// calculate price of this OrderDetail entry
+			Product product = productDAO.getById(productId);
+			double productPrice = product.getOriginalPrice();
+			double discount = 1;
+			// applied product policy
+			if (null != product.getPolicyId()) {
+				String policyId = product.getPolicyId();
+				String[] policyArr = policyId.split(",");
+				for (String id : policyArr) {
+					int pid = Integer.valueOf(id);
+					Policy p = policyDAO.getById(pid);
+					discount = discount * (1 - p.getDiscount());
+				}
 			}
+			// applied user policy
+			if (null != userPolicyArr) {
+				for (String id : userPolicyArr) {
+					int pid = Integer.valueOf(id);
+					if (pid == 0)
+						break;
+					Policy p = policyDAO.getById(pid);
+					discount = discount * (1 - p.getDiscount());
+				}
+			}
+			double realPrice = productPrice * discount;
+			totalPrice += realPrice * amount;
 
 			// step 5, insert entry to OrderDetail table
 			od.setOrderId(orderId);
@@ -93,7 +153,10 @@ public class OrderServiceImpl implements OrderService {
 		}
 
 		order.setStatus(Const.ORDER_STATUS_UNPAID);
-		//TODO calcualte total price of this order
+		// TODO calcualte total price of this order: applied promocode
+		//if()
+
+		order.setPrice(totalPrice);
 		
 		this.orderDAO.update(order);
 
@@ -103,8 +166,8 @@ public class OrderServiceImpl implements OrderService {
 	@Override
 	@Transactional
 	public Order updateDetail(OrderDetail od) {
-		//TODO should check capacity
-		
+		// TODO should check capacity
+
 		this.orderDetailDAO.update(od);
 		return this.orderDAO.getById(od.getOrderId());
 	}
@@ -112,9 +175,9 @@ public class OrderServiceImpl implements OrderService {
 	@Override
 	@Transactional
 	public Order updateDetailMultiple(List<OrderDetail> odList) {
-		//TODO should check capacity
-		
-		for(OrderDetail od : odList) {
+		// TODO should check capacity
+
+		for (OrderDetail od : odList) {
 			this.orderDetailDAO.update(od);
 		}
 		return this.orderDAO.getById(odList.get(0).getOrderId());
@@ -123,8 +186,8 @@ public class OrderServiceImpl implements OrderService {
 	@Override
 	@Transactional
 	public Order update(OrderInfo o) {
-		//TODO should check capacity
-		
+		// TODO should check capacity
+
 		return this.updateDetailMultiple(o.getDetail());
 	}
 
@@ -147,14 +210,14 @@ public class OrderServiceImpl implements OrderService {
 	@Override
 	@Transactional
 	public OrderInfo getById(int id) {
-		
+
 		OrderInfo oi = new OrderInfo();
 		oi.setOrder(this.orderDAO.getById(id));
-		
+
 		DetachedCriteria dc = DetachedCriteria.forClass(Order.class);
 		dc.add(Restrictions.eq("order_id", id));
 		oi.setDetail(this.orderDetailDAO.listWithCriteria(dc));
-		
+
 		return oi;
 	}
 

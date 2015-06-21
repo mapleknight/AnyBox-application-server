@@ -2,6 +2,8 @@ package com.anybox.dao;
 
 import java.util.List;
 
+import org.hibernate.criterion.DetachedCriteria;
+
 import com.anybox.model.User;
 
 public interface UserDAO {
@@ -36,5 +38,7 @@ public interface UserDAO {
 	
 	
 	public User UpdateUser(User u);
+	
+	public List<User> listWithCriteria(DetachedCriteria dc);
 
 }

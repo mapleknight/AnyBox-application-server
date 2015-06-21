@@ -24,6 +24,8 @@ public class UserServiceImpl implements UserService {
 	public User register(User u) {
 		
 		u.setCreateTime(new Date());
+		//TODO 
+		//create userCode, avoid repetition
 		
 		return this.userDAO.createUser(u);
 	}

@@ -44,7 +44,7 @@ public class OrderDetailDAOImpl implements OrderDetailDAO {
 	@Override
 	public List<OrderDetail> list() {
 		Session session = this.sessionFactory.getCurrentSession();
-		List<OrderDetail> orderDetailList = session.createQuery("from OrderDetail").list();
+		List<OrderDetail> orderDetailList = session.createQuery("from Order_detail").list();
 		for(OrderDetail o : orderDetailList){
 			logger.info("OrderDetail List:" + o);
 		}

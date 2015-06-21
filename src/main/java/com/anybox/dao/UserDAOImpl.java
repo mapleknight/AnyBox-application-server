@@ -5,11 +5,13 @@ import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
+import com.anybox.model.OrderDetail;
 import com.anybox.model.User;
 
 @Repository
@@ -71,6 +73,15 @@ public class UserDAOImpl implements UserDAO {
 		logger.info("Update user info successfully, User Details=" + u);
 		
 		return _u;
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<User> listWithCriteria(DetachedCriteria dc) {
+		Session session = this.sessionFactory.getCurrentSession();
+		Criteria cri = dc.getExecutableCriteria(session);
+		List<User> list = cri.list();
+		return list;
 	}
 
 }
