@@ -56,6 +56,23 @@ public class RUserController {
 		return list;
 	}
 	
+	
+	@RequestMapping(value= "/ruser/update", method = RequestMethod.POST)
+	public @ResponseBody User updateUser(@RequestBody User u) {
+		
+		User user = this.userService.updateUser(u);
+		//response.setHeader("Access-Control-Allow-Origin", "*");
+		return user;
+	}
+	
+	@RequestMapping(value= "/ruser/invite", method = RequestMethod.POST)
+	public @ResponseBody User addReferer(@RequestBody User u) {
+		
+		User user = this.userService.updateUser(u);
+		//response.setHeader("Access-Control-Allow-Origin", "*");
+		return user;
+	}
+	
 	/*
 	@ModelAttribute
 	public void setVaryResponseHeader(HttpServletResponse response) {

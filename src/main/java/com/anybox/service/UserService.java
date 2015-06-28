@@ -20,4 +20,6 @@ public interface UserService {
 
 	public User updateUser(User u);
 
+	User addReferer(User u);
+
 }

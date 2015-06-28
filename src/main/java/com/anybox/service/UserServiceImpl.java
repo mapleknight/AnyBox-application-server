@@ -146,7 +146,20 @@ public class UserServiceImpl implements UserService {
 	@Override
 	@Transactional
 	public User updateUser(User u) {
+		//TODO check  the fields to be updated, some fields are not allowed to be updated
 		return this.userDAO.updateUser(u);
+	}
+	
+	@Override
+	@Transactional
+	public User addReferer(User u) {
+		
+		User oldUser = this.getUserById(u.getId());
+		if(null == oldUser.getInvitedBy()){
+			oldUser.setInvitedBy(u.getInvitedBy());
+			
+		}
+		return this.userDAO.updateUser(oldUser);
 	}
 
 }

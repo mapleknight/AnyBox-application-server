@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.anybox.dao.UserDAOImpl;
 import com.anybox.model.Order;
 import com.anybox.model.OrderInfo;
 import com.anybox.model.ResponseModel;
