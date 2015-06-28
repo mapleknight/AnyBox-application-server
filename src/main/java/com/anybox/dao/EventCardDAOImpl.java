@@ -75,6 +75,7 @@ public class EventCardDAOImpl implements EventCardDAO {
 		Session session = this.sessionFactory.getCurrentSession();
 		Criteria cri = dc.getExecutableCriteria(session);
 		List<EventCard> list = cri.list();
+		logger.info("EventCard get list with restrictions successfully, EventCard details=" + list.toString());
 		return list;
 	}
 

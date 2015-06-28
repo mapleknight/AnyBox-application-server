@@ -1,33 +1,95 @@
 package com.anybox.service;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+import java.util.TimeZone;
 
+import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.anybox.Exception.UserNotExistException;
+import com.anybox.dao.FreeLunchDAO;
 import com.anybox.dao.UserDAO;
+import com.anybox.model.FreeLunch;
 import com.anybox.model.User;
+import com.anybox.utils.MD5Utils;
 
 @Service
 public class UserServiceImpl implements UserService {
-
+	
+	public static final int EXPIRE_MONTH_NUMBER = 1;
+	public static final int NOT_UPDATE_REFERER = 0;
+	public static final int UPDATED_REFERER = 1;
+	public static final double FREE_LUNCH_MONEY = 10.0;
+	public static final int NOT_USED = 0;
+	public static final int USED = 1;
+	
 	@Autowired(required=true)
 	@Qualifier(value="userDAO")
 	private UserDAO userDAO;
 	
+	@Autowired(required=true)
+	@Qualifier(value="freeLunchDAO")
+	private FreeLunchDAO freeLunchDAO;
+	
 	@Override
 	@Transactional
-	public User register(User u) {
+	public User register(User u) throws UserNotExistException {
 		
 		u.setCreateTime(new Date());
-		//TODO 
-		//create userCode, avoid repetition
+		//TODO check email and phonenumber which should not be duplicate
 		
-		return this.userDAO.createUser(u);
+		//create userCode, avoid repetition
+		String md5 = "";
+		try{
+			md5 = MD5Utils.encoderByMd5(u.getEmail() + u.getPassword() + u.getEmail());
+			md5 = md5.substring(0, 5);
+			DetachedCriteria dc = DetachedCriteria.forClass(User.class);
+			dc.add(Restrictions.eq("userCode", md5));
+			while(this.userDAO.listWithCriteria(dc).size() > 0) {
+				md5 = MD5Utils.encoderByMd5(u.getEmail() + u.getPassword() + u.getEmail());
+				md5 = md5.substring(0, 5);
+				dc = DetachedCriteria.forClass(User.class);
+				dc.add(Restrictions.eq("userCode", md5));
+			}
+		} catch(Exception e) {
+			throw new RuntimeException();
+		}
+		if(!"".equals(md5)) {
+			u.setUserCode(md5);
+		}
+		
+		//check inviteBy if it exists
+		if(null != u.getInvitedBy()) {
+			String refererCode = u.getInvitedBy();
+			DetachedCriteria dc = DetachedCriteria.forClass(User.class);
+			dc.add(Restrictions.eq("userCode", refererCode));
+			List<User> list = this.userDAO.listWithCriteria(dc);
+			
+			if(list.size() == 0) {
+				throw new UserNotExistException("Referer not exists");
+			}
+			User referer = list.get(0);
+			String refererName = referer.getFirstName() + " " + referer.getLastName();
+			
+			u.setInvitedBy(refererCode);
+			u = this.userDAO.createUser(u);
+			
+			this.addFreeLunch(u.getId(), refererName);
+			u.setUpdateReferer(NOT_UPDATE_REFERER);
+			//TODO when this user has payed once, the referer will get a free lunch opportunity
+		}
+		else {
+			u = this.userDAO.createUser(u);
+		}
+		
+		return u;
 	}
 
 	@Override
@@ -40,13 +102,51 @@ public class UserServiceImpl implements UserService {
 			return list.get(0);
 		}
 		
-		throw new UserNotExistException();
+		throw new UserNotExistException("User not exists");
 	}
 
 	@Override
 	@Transactional
 	public User getUserById(int id) {
 		return this.userDAO.getUserById(id);
+	}
+	
+	@Override
+	@Transactional
+	public boolean addFreeLunch(int userId, String refererName) {
+		//add free lunch promocode to this user
+		FreeLunch fl = new FreeLunch();
+		
+		TimeZone tz = TimeZone.getTimeZone("EST");
+		Calendar cld = Calendar.getInstance(tz, Locale.US);
+		cld.setTime(new Date());
+		cld.add(Calendar.MONTH, EXPIRE_MONTH_NUMBER);
+		fl.setExpire(cld.getTime());
+		
+		fl.setMoney(FREE_LUNCH_MONEY);
+		fl.setStatus(NOT_USED);
+		fl.setUserId(userId);
+		
+		fl.setDetail("Invited by " + refererName);
+		this.freeLunchDAO.add(fl);
+		return true;
+	}
+
+	@Override
+	@Transactional
+	public List<FreeLunch> getFreeLunchList(int id) {
+		
+		DetachedCriteria dc = DetachedCriteria.forClass(User.class);
+		dc.add(Restrictions.eq("status", 0));
+		dc.add(Restrictions.eq("userId", 0));
+		
+		return this.freeLunchDAO.listWithCriteria(dc);
+	}
+	
+	@Override
+	@Transactional
+	public User updateUser(User u) {
+		return this.userDAO.updateUser(u);
 	}
 
 }

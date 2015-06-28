@@ -37,6 +37,9 @@ public class EventCard implements Serializable {
 	private String type;
 	
 	private int valid;
+	
+	@Column(name="dest_id")
+	private int destId;
 
 	public int getId() {
 		return id;
@@ -92,6 +95,14 @@ public class EventCard implements Serializable {
 
 	public void setValid(int valid) {
 		this.valid = valid;
+	}
+
+	public int getDestId() {
+		return destId;
+	}
+
+	public void setDestId(int destId) {
+		this.destId = destId;
 	}
 	
 }

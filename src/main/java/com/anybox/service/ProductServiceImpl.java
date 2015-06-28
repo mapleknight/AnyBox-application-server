@@ -87,6 +87,8 @@ public class ProductServiceImpl implements ProductService {
 	public List<ProductWithDetail> listWithDetail(int machineId, int userId,
 			String date) {
 
+		//TODO
+		
 		List<ProductWithDetail> list = new ArrayList<ProductWithDetail>();
 		
 		//step 0, get policies applied to this user

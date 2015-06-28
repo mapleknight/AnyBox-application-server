@@ -12,12 +12,14 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.anybox.dao.FreeLunchDAO;
 import com.anybox.dao.OrderDAO;
 import com.anybox.dao.OrderDetailDAO;
 import com.anybox.dao.PolicyDAO;
 import com.anybox.dao.PreorderRecordDAO;
 import com.anybox.dao.ProductDAO;
 import com.anybox.dao.UserDAO;
+import com.anybox.model.FreeLunch;
 import com.anybox.model.Order;
 import com.anybox.model.OrderDetail;
 import com.anybox.model.OrderInfo;
@@ -53,6 +55,10 @@ public class OrderServiceImpl implements OrderService {
 	@Autowired(required = true)
 	@Qualifier(value = "policyDAO")
 	private PolicyDAO policyDAO;
+	
+	@Autowired(required=true)
+	@Qualifier(value="freeLunchDAO")
+	private FreeLunchDAO freeLunchDAO;
 
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.REPEATABLE_READ)
@@ -153,8 +159,14 @@ public class OrderServiceImpl implements OrderService {
 		}
 
 		order.setStatus(Const.ORDER_STATUS_UNPAID);
-		// TODO calcualte total price of this order: applied promocode
-		//if()
+		// calcualte total price of this order: applied promocode
+		if(0 != order.getFreeLunchId()) {
+			FreeLunch fl = this.freeLunchDAO.getById(order.getFreeLunchId());
+			totalPrice = totalPrice - fl.getMoney();
+			if(totalPrice <= 0) totalPrice = 0;
+			fl.setStatus(UserServiceImpl.USED);
+			this.freeLunchDAO.update(fl);
+		}
 
 		order.setPrice(totalPrice);
 		
@@ -195,7 +207,7 @@ public class OrderServiceImpl implements OrderService {
 	@Transactional
 	public List<Order> list(int userId, String status) {
 		DetachedCriteria dc = DetachedCriteria.forClass(Order.class);
-		dc.add(Restrictions.eq("user_id", userId));
+		dc.add(Restrictions.eq("userId", userId));
 		if (null != status && !status.equalsIgnoreCase("")) {
 			dc.add(Restrictions.eq("status", status));
 		} else {
@@ -215,7 +227,7 @@ public class OrderServiceImpl implements OrderService {
 		oi.setOrder(this.orderDAO.getById(id));
 
 		DetachedCriteria dc = DetachedCriteria.forClass(Order.class);
-		dc.add(Restrictions.eq("order_id", id));
+		dc.add(Restrictions.eq("orderId", id));
 		oi.setDetail(this.orderDetailDAO.listWithCriteria(dc));
 
 		return oi;

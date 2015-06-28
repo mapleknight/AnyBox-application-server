@@ -1,11 +1,12 @@
 package com.anybox.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.anybox.Exception.UserNotExistException;
+import com.anybox.model.FreeLunch;
 import com.anybox.model.User;
 import com.anybox.service.UserService;
 
@@ -24,7 +26,7 @@ public class RUserController {
 	private UserService userService;
 	
 	@RequestMapping(value= "/ruser/register", method = RequestMethod.POST)
-	public @ResponseBody User register(@RequestBody User u, HttpServletResponse response){
+	public @ResponseBody User register(@RequestBody User u, HttpServletResponse response) throws UserNotExistException{
 		
 		User user = this.userService.register(u);
 		
@@ -45,6 +47,13 @@ public class RUserController {
 		User user = this.userService.getUserById(id);
 		
 		return user;
+	}
+	
+	@RequestMapping(value= "/ruser/freelunch/{userId}", method = RequestMethod.GET)
+	public @ResponseBody List<FreeLunch> getFreeLunchList(@PathVariable("userId") int userId){
+		
+		List<FreeLunch> list = this.userService.getFreeLunchList(userId);
+		return list;
 	}
 	
 	/*

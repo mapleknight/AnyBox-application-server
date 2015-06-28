@@ -11,7 +11,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
-import com.anybox.model.OrderDetail;
 import com.anybox.model.User;
 
 @Repository
@@ -65,7 +64,7 @@ public class UserDAOImpl implements UserDAO {
 	}
 
 	@Override
-	public User UpdateUser(User u) {
+	public User updateUser(User u) {
 		Session session = this.sessionFactory.getCurrentSession();
 		session.update(u);
 		User _u = this.getUserById(u.getId());

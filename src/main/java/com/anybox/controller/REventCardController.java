@@ -29,7 +29,7 @@ public class REventCardController {
 		return this.eventCardService.getById(id);
 	}
 	
-	@RequestMapping(value = "/reventcards", method = RequestMethod.GET)
+	@RequestMapping(value = "/reventcards", method = RequestMethod.POST)
 	public @ResponseBody List<EventCard> list(Model model) {
 		return this.eventCardService.listWithValid();
 	}

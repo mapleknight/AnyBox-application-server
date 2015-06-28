@@ -44,7 +44,7 @@ public class User implements Serializable {
 	 * this field indicates the id of the user who invites this user
 	 */
 	@Column(name="invited_by")
-	private int invitedBy;
+	private String invitedBy;
 	
 	/**
 	 * this field indicates the policies apply to this user
@@ -57,6 +57,15 @@ public class User implements Serializable {
 	
 	@Column(name="user_code", updatable=false)
 	private String userCode;
+	
+	@Column(name="first_name")
+	private String firstName;
+	
+	@Column(name="last_name")
+	private String lastName;
+	
+	@Column(name="update_referer")
+	private int updateReferer;
 
 	public int getId() {
 		return id;
@@ -98,11 +107,11 @@ public class User implements Serializable {
 		this.promoCode = promoCode;
 	}
 
-	public int getInvitedBy() {
+	public String getInvitedBy() {
 		return invitedBy;
 	}
 
-	public void setInvitedBy(int invitedBy) {
+	public void setInvitedBy(String invitedBy) {
 		this.invitedBy = invitedBy;
 	}
 
@@ -129,6 +138,30 @@ public class User implements Serializable {
 
 	public void setUserCode(String userCode) {
 		this.userCode = userCode;
+	}
+
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+	public int getUpdateReferer() {
+		return updateReferer;
+	}
+
+	public void setUpdateReferer(int updateReferer) {
+		this.updateReferer = updateReferer;
 	}
 
 	@Override

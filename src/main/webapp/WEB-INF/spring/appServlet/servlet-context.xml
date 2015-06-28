@@ -72,6 +72,9 @@
 				<beans:value>com.anybox.model.Order</beans:value>
 				<beans:value>com.anybox.model.OrderDetail</beans:value>
 				<beans:value>com.anybox.model.PreorderRecord</beans:value>
+				<beans:value>com.anybox.model.EventCard</beans:value>
+				<beans:value>com.anybox.model.Policy</beans:value>
+				<beans:value>com.anybox.model.FreeLunch</beans:value>
 			</beans:list>
 		</beans:property>
 		<beans:property name="hibernateProperties">
@@ -148,6 +151,10 @@
 		<beans:property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />
 	</beans:bean>
 	<beans:bean id="eventCardService" class="com.anybox.service.EventCardServiceImpl">
+	</beans:bean>
+	
+	<beans:bean id="freeLunchDAO" class="com.anybox.dao.FreeLunchDAOImpl">
+		<beans:property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />
 	</beans:bean>
 	
 	

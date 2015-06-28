@@ -16,15 +16,15 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.DateSerializer;
 
 @Entity
-@Table(name="USER_ORDER")
+@Table(name="FREE_LUNCH")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class Order implements Serializable {
-
+public class FreeLunch implements Serializable {
+	
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -7095210551556884396L;
-	
+	private static final long serialVersionUID = -193246597155896189L;
+
 	@Id
 	@Column(name="id")
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -33,22 +33,28 @@ public class Order implements Serializable {
 	@Column(name="user_id")
 	private int userId;
 	
-	@Column(name="create_time", updatable=false)
-	private Date createTime;
+	private double money;
 	
-	private String status;
+	private Date expire;
 	
-	private double price;
+	private String detail;
 	
-	@Column(name="freelunch_id")
-	private int freeLunchId;
-
+	private int status;
+	
 	public int getId() {
 		return id;
 	}
 
 	public void setId(int id) {
 		this.id = id;
+	}
+
+	public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
 	}
 
 	public int getUserId() {
@@ -59,37 +65,29 @@ public class Order implements Serializable {
 		this.userId = userId;
 	}
 
+	public double getMoney() {
+		return money;
+	}
+
+	public void setMoney(double money) {
+		this.money = money;
+	}
+
 	@JsonSerialize(using=DateSerializer.class)
-	public Date getCreateTime() {
-		return createTime;
+	public Date getExpire() {
+		return expire;
 	}
 
-	public void setCreateTime(Date createTime) {
-		this.createTime = createTime;
+	public void setExpire(Date expire) {
+		this.expire = expire;
 	}
 
-	public String getStatus() {
-		return status;
+	public String getDetail() {
+		return detail;
 	}
 
-	public void setStatus(String status) {
-		this.status = status;
-	}
-	
-	public double getPrice() {
-		return price;
-	}
-
-	public void setPrice(double price) {
-		this.price = price;
-	}
-
-	public int getFreeLunchId() {
-		return freeLunchId;
-	}
-
-	public void setFreeLunchId(int freeLunchId) {
-		this.freeLunchId = freeLunchId;
+	public void setDetail(String detail) {
+		this.detail = detail;
 	}
 
 	@Override

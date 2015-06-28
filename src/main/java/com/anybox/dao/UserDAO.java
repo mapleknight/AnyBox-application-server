@@ -37,7 +37,7 @@ public interface UserDAO {
 	public User getUserById(int id);
 	
 	
-	public User UpdateUser(User u);
+	public User updateUser(User u);
 	
 	public List<User> listWithCriteria(DetachedCriteria dc);
 
