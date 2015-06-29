@@ -5,6 +5,7 @@ import java.util.List;
 import com.anybox.Exception.UserNotExistException;
 import com.anybox.model.FreeLunch;
 import com.anybox.model.User;
+import com.anybox.model.UserRefererModel;
 
 public interface UserService {
 	
@@ -20,6 +21,7 @@ public interface UserService {
 
 	public User updateUser(User u);
 
-	User addReferer(User u);
+
+	public User addReferer(UserRefererModel u) throws UserNotExistException;
 
 }

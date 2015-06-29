@@ -34,6 +34,8 @@ public class EventCardServiceImpl implements EventCardService {
 	@Override
 	@Transactional
 	public List<EventCard> list() {
+		
+		//TODO check the bug
 		return this.eventCardDAO.list();
 	}
 	

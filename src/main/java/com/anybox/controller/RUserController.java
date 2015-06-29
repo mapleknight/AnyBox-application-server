@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.anybox.Exception.UserNotExistException;
 import com.anybox.model.FreeLunch;
 import com.anybox.model.User;
+import com.anybox.model.UserRefererModel;
 import com.anybox.service.UserService;
 
 @Controller
@@ -66,9 +67,9 @@ public class RUserController {
 	}
 	
 	@RequestMapping(value= "/ruser/invite", method = RequestMethod.POST)
-	public @ResponseBody User addReferer(@RequestBody User u) {
+	public @ResponseBody User addReferer(@RequestBody UserRefererModel u) throws UserNotExistException {
 		
-		User user = this.userService.updateUser(u);
+		User user = this.userService.addReferer(u);
 		//response.setHeader("Access-Control-Allow-Origin", "*");
 		return user;
 	}

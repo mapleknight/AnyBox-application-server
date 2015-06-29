@@ -40,6 +40,7 @@ public class ROrderController {
 	@RequestMapping(value = "/rorder/list/{userId}", method = RequestMethod.GET)
 	public @ResponseBody List<Order> listWithUserId(
 			@PathVariable("userId") int userId) {
+		//TODO return detail of order
 		return this.orderService.list(userId, "");
 	}
 

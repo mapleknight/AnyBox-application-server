@@ -18,6 +18,7 @@ import com.anybox.dao.FreeLunchDAO;
 import com.anybox.dao.UserDAO;
 import com.anybox.model.FreeLunch;
 import com.anybox.model.User;
+import com.anybox.model.UserRefererModel;
 import com.anybox.utils.MD5Utils;
 
 @Service
@@ -115,6 +116,7 @@ public class UserServiceImpl implements UserService {
 	@Transactional
 	public boolean addFreeLunch(int userId, String refererName) {
 		//add free lunch promocode to this user
+		//TODO 邀请的人无法填写直接邀请人的码
 		FreeLunch fl = new FreeLunch();
 		
 		TimeZone tz = TimeZone.getTimeZone("EST");
@@ -136,9 +138,9 @@ public class UserServiceImpl implements UserService {
 	@Transactional
 	public List<FreeLunch> getFreeLunchList(int id) {
 		
-		DetachedCriteria dc = DetachedCriteria.forClass(User.class);
+		DetachedCriteria dc = DetachedCriteria.forClass(FreeLunch.class);
 		dc.add(Restrictions.eq("status", 0));
-		dc.add(Restrictions.eq("userId", 0));
+		dc.add(Restrictions.eq("userId", id));
 		
 		return this.freeLunchDAO.listWithCriteria(dc);
 	}
@@ -152,11 +154,27 @@ public class UserServiceImpl implements UserService {
 	
 	@Override
 	@Transactional
-	public User addReferer(User u) {
+	public User addReferer(UserRefererModel u) throws UserNotExistException {
 		
 		User oldUser = this.getUserById(u.getId());
 		if(null == oldUser.getInvitedBy()){
-			oldUser.setInvitedBy(u.getInvitedBy());
+			oldUser.setInvitedBy(u.getInviteBy());
+			
+			String refererCode = u.getInviteBy();
+			DetachedCriteria dc = DetachedCriteria.forClass(User.class);
+			dc.add(Restrictions.eq("userCode", refererCode));
+			List<User> list = this.userDAO.listWithCriteria(dc);
+			
+			if(list.size() == 0) {
+				throw new UserNotExistException("Referer not exists");
+			}
+			User referer = list.get(0);
+			String refererName = referer.getFirstName() + " " + referer.getLastName();
+			
+			oldUser.setInvitedBy(refererCode);
+			
+			this.addFreeLunch(u.getId(), refererName);
+			oldUser.setUpdateReferer(NOT_UPDATE_REFERER);
 			
 		}
 		return this.userDAO.updateUser(oldUser);
