@@ -44,6 +44,9 @@ public class OrderDetail implements Serializable {
 	
 	@Column(name="pickup_date")
 	private Date pickupDate;
+	
+	@Column(name="picked_time")
+	private Date pickedTime;
 
 	public int getId() {
 		return id;
@@ -94,6 +97,15 @@ public class OrderDetail implements Serializable {
 		this.pickupDate = pickupDate;
 	}
 	
+	@JsonSerialize(using=DateSerializer.class)
+	public Date getPickedTime() {
+		return pickedTime;
+	}
+
+	public void setPickedTime(Date pickedTime) {
+		this.pickedTime = pickedTime;
+	}
+
 	@Override
 	public String toString() {
 		return AnyboxUtils.toString(this);

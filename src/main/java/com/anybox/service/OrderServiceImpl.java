@@ -1,5 +1,6 @@
 package com.anybox.service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -206,7 +207,7 @@ public class OrderServiceImpl implements OrderService {
 
 	@Override
 	@Transactional
-	public List<Order> list(int userId, String status) {
+	public List<OrderInfo> list(int userId, String status) {
 		DetachedCriteria dc = DetachedCriteria.forClass(Order.class);
 		dc.add(Restrictions.eq("userId", userId));
 		if (null != status && !status.equalsIgnoreCase("")) {
@@ -216,8 +217,13 @@ public class OrderServiceImpl implements OrderService {
 		}
 
 		List<Order> list = this.orderDAO.listWithCriteria(dc);
+		
+		List<OrderInfo> res = new ArrayList<OrderInfo>();
+		for(Order od : list) {
+			res.add(this.getById(od.getId()));
+		}
 
-		return list;
+		return res;
 	}
 
 	@Override
@@ -227,7 +233,7 @@ public class OrderServiceImpl implements OrderService {
 		OrderInfo oi = new OrderInfo();
 		oi.setOrder(this.orderDAO.getById(id));
 
-		DetachedCriteria dc = DetachedCriteria.forClass(Order.class);
+		DetachedCriteria dc = DetachedCriteria.forClass(OrderDetail.class);
 		dc.add(Restrictions.eq("orderId", id));
 		oi.setDetail(this.orderDetailDAO.listWithCriteria(dc));
 

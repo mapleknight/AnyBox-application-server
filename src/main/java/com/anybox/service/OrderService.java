@@ -32,12 +32,12 @@ public interface OrderService {
 	public Order update(OrderInfo od);
 	
 	/**
-	 * query order list of a user
+	 * query OrderInfo list of a user
 	 * @param userId
 	 * @param status
 	 * @return
 	 */
-	public List<Order> list(int userId, String status);
+	public List<OrderInfo> list(int userId, String status);
 	
 	public OrderInfo getById(int id);
 	
