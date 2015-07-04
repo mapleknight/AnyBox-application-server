@@ -47,6 +47,22 @@ public class OrderDetail implements Serializable {
 	
 	@Column(name="picked_time")
 	private Date pickedTime;
+	
+	// product info begin
+	private double price;
+	
+	@Column(name="real_price")
+	private double realPrice;
+	
+	private String picurl;
+	
+	@Column(name="product_name")
+	private String productName;
+	
+	@Column(name="category_id")
+	private int categoryId;
+	// product info end
+	
 
 	public int getId() {
 		return id;
@@ -104,6 +120,46 @@ public class OrderDetail implements Serializable {
 
 	public void setPickedTime(Date pickedTime) {
 		this.pickedTime = pickedTime;
+	}
+
+	public double getPrice() {
+		return price;
+	}
+
+	public void setPrice(double price) {
+		this.price = price;
+	}
+
+	public double getRealPrice() {
+		return realPrice;
+	}
+
+	public void setRealPrice(double realPrice) {
+		this.realPrice = realPrice;
+	}
+
+	public String getPicurl() {
+		return picurl;
+	}
+
+	public void setPicurl(String picurl) {
+		this.picurl = picurl;
+	}
+
+	public String getProductName() {
+		return productName;
+	}
+
+	public void setProductName(String productName) {
+		this.productName = productName;
+	}
+
+	public int getCategoryId() {
+		return categoryId;
+	}
+
+	public void setCategoryId(int categoryId) {
+		this.categoryId = categoryId;
 	}
 
 	@Override

@@ -32,7 +32,7 @@ public class Product implements Serializable {
 	private String description;
 	
 	@Column(name="category_id")
-	private String categoryId;
+	private int categoryId;
 	
 	@Column(name="original_price")
 	private double originalPrice;
@@ -77,11 +77,11 @@ public class Product implements Serializable {
 		this.description = description;
 	}
 
-	public String getCategoryId() {
+	public int getCategoryId() {
 		return categoryId;
 	}
 
-	public void setCategoryId(String categoryId) {
+	public void setCategoryId(int categoryId) {
 		this.categoryId = categoryId;
 	}
 

@@ -152,11 +152,17 @@ public class OrderServiceImpl implements OrderService {
 					discount = Arith.mul(discount, p.getDiscount());
 				}
 			}
-			double realPrice = productPrice * discount;
-			totalPrice += realPrice * amount;
+			double realPrice = Arith.mul(productPrice, discount);
+			totalPrice += Arith.mul(realPrice, amount);
 
 			// step 5, insert entry to OrderDetail table
 			od.setOrderId(orderId);
+			// add product info to order detail
+			od.setCategoryId(product.getCategoryId());
+			od.setPrice(productPrice);
+			od.setRealPrice(realPrice);
+			od.setPicurl(product.getImg1());
+			od.setProductName(product.getName());
 			this.orderDetailDAO.add(od);
 		}
 

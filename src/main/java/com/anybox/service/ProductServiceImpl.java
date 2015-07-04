@@ -27,6 +27,7 @@ import com.anybox.model.PreorderRecord;
 import com.anybox.model.Product;
 import com.anybox.model.ProductWithDetail;
 import com.anybox.model.Tray;
+import com.anybox.utils.Arith;
 import com.anybox.utils.DateUtils;
 
 @Service
@@ -162,7 +163,7 @@ public class ProductServiceImpl implements ProductService {
 				for (String id : policyArr) {
 					int pid = Integer.valueOf(id);
 					Policy p = policyDAO.getById(pid);
-					discount = discount * (1 - p.getDiscount());
+					discount = Arith.mul(discount, p.getDiscount());
 				}
 			}
 			if(null != userPolicyArr){
@@ -170,10 +171,10 @@ public class ProductServiceImpl implements ProductService {
 					int pid = Integer.valueOf(id);
 					if(pid == 0) break;
 					Policy p = policyDAO.getById(pid);
-					discount = discount * (1 - p.getDiscount());
+					discount = Arith.mul(discount, p.getDiscount());
 				}
 			}
-			double realPrice = price * discount;
+			double realPrice = Arith.mul(price, discount);
 			pd.setRealPrice(realPrice);
 			
 			list.add(pd);
