@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.anybox.Exception.UserNotExistException;
+import com.anybox.model.CheckUserExistModel;
 import com.anybox.model.FreeLunch;
 import com.anybox.model.User;
 import com.anybox.model.UserRefererModel;
@@ -80,5 +81,20 @@ public class RUserController {
 	    response.setHeader("Vary", "Accept");
 	}
 	*/
+	@RequestMapping(value= "/ruser/exist", method = RequestMethod.POST)
+	public @ResponseBody CheckUserExistModel checkUserExist(@RequestBody User u) throws UserNotExistException {
+		
+		boolean result = this.userService.checkUserExist(u);
+		CheckUserExistModel model = new CheckUserExistModel();
+		model.setExist(result);
+		return model;
+	}
+	
+	@RequestMapping(value= "/ruser/query", method = RequestMethod.POST)
+	public @ResponseBody User getUserInfoByEmailorPhone(@RequestBody User u) throws UserNotExistException {
+		
+		User user = this.userService.getUserInfoByEmailorPhone(u);
+		return user;
+	}
 
 }

@@ -33,6 +33,8 @@ import com.anybox.utils.Const;
 
 @Service
 public class OrderServiceImpl implements OrderService {
+	
+	private final double TAX_RATE = 0.1;
 
 	@Autowired(required = true)
 	@Qualifier(value = "orderDAO")
@@ -99,7 +101,7 @@ public class OrderServiceImpl implements OrderService {
 			dc2.add(Restrictions.eq("productId", productId));
 			dc2.add(Restrictions.eq("machineId", machineId));
 			dc2.add(Restrictions.eq("date", odDate));
-
+			
 			List<PreorderRecord> recordList = this.preorderRecordDAO
 					.listWithCriteria(dc2);
 			PreorderRecord pd = recordList.get(0);
@@ -176,9 +178,15 @@ public class OrderServiceImpl implements OrderService {
 			this.freeLunchDAO.update(fl);
 		}
 
+		// add tax
+		totalPrice = Arith.mul(totalPrice, this.TAX_RATE + 1);
+		
 		order.setPrice(totalPrice);
 		
 		this.orderDAO.update(order);
+		
+		//TODO mock payment success
+		
 
 		return order;
 	}

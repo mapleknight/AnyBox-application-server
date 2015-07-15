@@ -42,7 +42,6 @@ public class UserServiceImpl implements UserService {
 	@Override
 	@Transactional
 	public User register(User u) throws UserNotExistException {
-		
 		u.setCreateTime(new Date());
 		//TODO check email and phonenumber which should not be duplicate
 		
@@ -82,9 +81,10 @@ public class UserServiceImpl implements UserService {
 			u.setInvitedBy(refererCode);
 			u = this.userDAO.createUser(u);
 			
-			this.addFreeLunch(u.getId(), refererName);
+			this.addFreeLunch(u.getId(), refererName, "Invited by ");
 			u.setUpdateReferer(NOT_UPDATE_REFERER);
 			//TODO when this user has payed once, the referer will get a free lunch opportunity
+			this.addFreeLunch(referer.getId(), u.getFirstName() + " " + u.getLastName(), "Invite ");
 		}
 		else {
 			u = this.userDAO.createUser(u);
@@ -114,7 +114,7 @@ public class UserServiceImpl implements UserService {
 	
 	@Override
 	@Transactional
-	public boolean addFreeLunch(int userId, String refererName) {
+	public boolean addFreeLunch(int userId, String refererName, String msg) {
 		//add free lunch promocode to this user
 		//TODO 邀请的人无法填写直接邀请人的码
 		FreeLunch fl = new FreeLunch();
@@ -129,7 +129,7 @@ public class UserServiceImpl implements UserService {
 		fl.setStatus(NOT_USED);
 		fl.setUserId(userId);
 		
-		fl.setDetail("Invited by " + refererName);
+		fl.setDetail(msg + refererName);
 		this.freeLunchDAO.add(fl);
 		return true;
 	}
@@ -171,13 +171,52 @@ public class UserServiceImpl implements UserService {
 			User referer = list.get(0);
 			String refererName = referer.getFirstName() + " " + referer.getLastName();
 			
-			oldUser.setInvitedBy(refererCode);
+			//oldUser.setInvitedBy(refererCode);
 			
-			this.addFreeLunch(u.getId(), refererName);
+			this.addFreeLunch(u.getId(), refererName, "Invited by ");
 			oldUser.setUpdateReferer(NOT_UPDATE_REFERER);
+			
+			this.addFreeLunch(referer.getId(), oldUser.getFirstName() + " " + oldUser.getLastName(), "Invite ");
 			
 		}
 		return this.userDAO.updateUser(oldUser);
+	}
+
+	@Override
+	@Transactional
+	public boolean checkUserExist(User u) {
+		
+		DetachedCriteria dc = DetachedCriteria.forClass(User.class);
+		if(u.getEmail() != null) {
+			dc.add(Restrictions.eq("email", u.getEmail()));
+			List<User> list = this.userDAO.listWithCriteria(dc);
+			if(list.size() > 0) return true;
+		} else if(u.getPhoneNumber() != null) {
+			dc.add(Restrictions.eq("phoneNumber", u.getPhoneNumber()));
+			List<User> list = this.userDAO.listWithCriteria(dc);
+			if(list.size() > 0) return true;
+		}
+		
+		return false;
+	}
+	
+	//used for getting user info to change password
+	@Override
+	@Transactional
+	public User getUserInfoByEmailorPhone(User u) throws UserNotExistException {
+		
+		DetachedCriteria dc = DetachedCriteria.forClass(User.class);
+		if(u.getEmail() != null) {
+			dc.add(Restrictions.eq("email", u.getEmail()));
+			List<User> list = this.userDAO.listWithCriteria(dc);
+			if(list.size() > 0) return list.get(0);
+		} else if(u.getPhoneNumber() != null) {
+			dc.add(Restrictions.eq("phoneNumber", u.getPhoneNumber()));
+			List<User> list = this.userDAO.listWithCriteria(dc);
+			if(list.size() > 0) return list.get(0);
+		} else throw new UserNotExistException("User not exist");
+		
+		return u;
 	}
 
 }

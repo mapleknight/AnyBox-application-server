@@ -17,11 +17,15 @@ public interface UserService {
 	
 	public List<FreeLunch> getFreeLunchList(int id);
 
-	public boolean addFreeLunch(int userId, String refererName);
+	public boolean addFreeLunch(int userId, String refererName, String msg);
 
 	public User updateUser(User u);
 
 
 	public User addReferer(UserRefererModel u) throws UserNotExistException;
+
+	public boolean checkUserExist(User u);
+
+	public User getUserInfoByEmailorPhone(User u) throws UserNotExistException;
 
 }
