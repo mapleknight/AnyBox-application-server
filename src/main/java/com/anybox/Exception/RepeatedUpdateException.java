@@ -1,6 +1,6 @@
 package com.anybox.Exception;
 
-public class RepeatedUpdateException extends Exception{
+public class RepeatedUpdateException extends RuntimeException{
 
 	/**
 	 * 

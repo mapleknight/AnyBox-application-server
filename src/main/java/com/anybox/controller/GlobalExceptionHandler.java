@@ -15,6 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver;
 
 import com.anybox.Exception.NotEnoughProductException;
+import com.anybox.Exception.RefereeExistsException;
 import com.anybox.Exception.UserNotExistException;
 import com.anybox.model.NotEnoughExceptionModel;
 
@@ -54,6 +55,13 @@ public class GlobalExceptionHandler extends ExceptionHandlerExceptionResolver {
 	@ExceptionHandler(UserNotExistException.class)
 	public void handleUserNotExistException(Exception ex) {
 		logger.info("UserNotExistException Occured:: " + ex.toString());
+		//ex.printStackTrace();
+	}
+	
+	@ResponseStatus(value = HttpStatus.NOT_MODIFIED)
+	@ExceptionHandler(RefereeExistsException.class)
+	public void handleRefereeExistsException(Exception ex) {
+		logger.info("RefereeExistsException Occured:: " + ex.toString());
 		//ex.printStackTrace();
 	}
 

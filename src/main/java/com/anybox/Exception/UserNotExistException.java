@@ -1,6 +1,6 @@
 package com.anybox.Exception;
 
-public class UserNotExistException extends Exception{
+public class UserNotExistException extends RuntimeException{
 
 	/**
 	 * 

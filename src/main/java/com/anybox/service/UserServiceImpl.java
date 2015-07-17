@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.anybox.Exception.RefereeExistsException;
 import com.anybox.Exception.UserNotExistException;
 import com.anybox.dao.FreeLunchDAO;
 import com.anybox.dao.UserDAO;
@@ -154,7 +155,7 @@ public class UserServiceImpl implements UserService {
 	
 	@Override
 	@Transactional
-	public User addReferer(UserRefererModel u) throws UserNotExistException {
+	public User addReferer(UserRefererModel u) throws UserNotExistException, RefereeExistsException {
 		
 		User oldUser = this.getUserById(u.getId());
 		if(null == oldUser.getInvitedBy()){
@@ -178,6 +179,9 @@ public class UserServiceImpl implements UserService {
 			
 			this.addFreeLunch(referer.getId(), oldUser.getFirstName() + " " + oldUser.getLastName(), "Invite ");
 			
+		}
+		else {
+			throw new RefereeExistsException();
 		}
 		return this.userDAO.updateUser(oldUser);
 	}
