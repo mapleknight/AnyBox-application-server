@@ -190,7 +190,7 @@ public class MailUtil {
 	public static void main(String[] args) throws Exception {
 		
 		String smtp = "smtp.gmail.com";// smtp服务器
-		String from = "anyboxservice@gmail.com";// 邮件显示名称
+		String from = "anyboxservices@gmail.com";// 邮件显示名称
 		String to = "karlwang1118@gmail.com";// 收件人的邮件地址，必须是真实地址
 		String copyto = "";// 抄送人邮件地址
 		String subject = "测试邮件";// 邮件标题
